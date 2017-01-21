@@ -1,0 +1,25 @@
+# 在本机上mysql（原始安装的mysql）必须重新启动，原因未知
+	mac book mysql 启动问题：ps aux|grep mysql, sudo kill -9 85,  sudo /usr/local/mysql/bin/mysqld_safe &
+
+# 在本机上mysql（xampp安装的mysql）必须重新启动
+	每次都要执行 $ sudo /Applications/XAMPP/xamppfiles/bin/mysql.server start
+    并输密码实在是醉了，试试我这个办法
+    1，sudo vim /Library/LaunchDaemons/com.mysql.mysql.plist
+    然后输入
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+    <key>KeepAlive</key>
+    <true/>
+    <key>Label</key>
+    <string>com.mysql.mysqld</string>
+    <key>ProgramArguments</key>
+    <array>
+    <string>/usr/local/mysql/bin/mysqld_safe</string>
+    <string>--user=mysql</string>
+    </array>
+    </dict>
+    </plist>
+    2，然后执行sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysql.plist
+    3，重启见证奇迹

@@ -1,0 +1,9 @@
+#. 注意出现以下错误的解决办法是：
+    1, 看服务层的方法是否在没有加上注解的情况下@Transactional(readOnly = false)，插入数据库
+    2, 看服务层的方法是否在没有加上注解的情况下@Transactional(readOnly = false)，调用了有注解@Transactional(readOnly = false)并且插入数据库
+        ### Error updating database. Cause: java.sql.SQLException: Connection is read-only. Queries leading to data modification are not allowed
+        ### The error may involve defaultParameterMap
+        ### The error occurred while setting parameters
+        ### SQL: INSERT INTO shop_cookie( id, ip, create_by, create_date, update_by, update_date, del_flag) VALUES ( ?, ?, ?, ?, ?, ?, ?)
+
+#. 不要在Service层调用 com.iwc.shop.modules.shop.utils.CookieUtils.CookieUtils.getCookieId(request, response)，否则有可能产生Cause: java.sql.SQLException: Connection is read-only
