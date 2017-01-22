@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.PreorderItemAttributeDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.item_id AS "item.id",
+		a.attribute_idstring AS "attributeIdstring",
+		a.attribute_item_id AS "attributeItemId",
+		a.attribute_item_name AS "attributeItemName",
+		a.attribute_item_print_name AS "attributeItemPrintName",
+		a.attribute_item_sort AS "attributeItemSort",
+		a.attribute_item_value_id AS "attributeItemValueId",
+		a.attribute_item_value_name AS "attributeItemValueName",
+		a.attribute_item_value_print_name AS "attributeItemValuePrintName",
+		a.attribute_item_value_sort AS "attributeItemValueSort",
+		a.attribute_item_value_price AS "attributeItemValuePrice",
+		a.attribute_item_value_is_standard AS "attributeItemValueIsStandard",
+		del_flag as "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_preorder_item_attribute (
+			id,
+			item_id,
+			attribute_idstring,
+			attribute_item_id,
+			attribute_item_name,
+			attribute_item_print_name,
+			attribute_item_sort,
+			attribute_item_value_id,
+			attribute_item_value_name,
+			attribute_item_value_print_name,
+			attribute_item_value_sort,
+			attribute_item_value_price,
+			attribute_item_value_is_standard,
+			del_flag)
+		VALUES (
+			#{id},
+			#{item.id},
+			#{attributeIdstring},
+			#{attributeItemId},
+			#{attributeItemName},
+			#{attributeItemPrintName},
+			#{attributeItemSort},
+			#{attributeItemValueId},
+			#{attributeItemValueName},
+			#{attributeItemValuePrintName},
+			#{attributeItemValueSort},
+			#{attributeItemValuePrice},
+			#{attributeItemValueIsStandard},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_preorder_item_attribute SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="PreorderItemAttribute">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_preorder_item_attribute a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_preorder_item_attribute SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="PreorderItemAttribute">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_preorder_item_attribute a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="item != null and item.id != null and item.id != ''">
+				AND a.item_id = #{item.id}
+			</if>
+		</where>
+	</select>
+
+</mapper>

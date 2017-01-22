@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.oa.dao.OaNotifyDao">
+    
+	<sql id="oaNotifyColumns">
+		a.id AS "id",
+		a.type AS "type",
+		a.title AS "title",
+		a.content AS "content",
+		a.files AS "files",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+	    b.read_num,
+	    b.un_read_num
+	</sql>
+	
+	<sql id="oaNotifyJoins">
+		<!-- 查询已读和未读条数 -->
+		LEFT JOIN (
+            SELECT r.oa_notify_id, 
+                   sum(case when r.read_flag = '1' then 1 else 0 end) read_num,
+                   sum(case when r.read_flag != '1' then 1 else 0 end) un_read_num 
+            FROM oa_notify_record r GROUP BY r.oa_notify_id
+    	) b ON b.oa_notify_id = a.id
+	</sql>
+    
+	<select id="get" resultType="OaNotify">
+		SELECT 
+			<include refid="oaNotifyColumns"/>
+		FROM oa_notify a
+		<include refid="oaNotifyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OaNotify">
+		SELECT 
+			<include refid="oaNotifyColumns"/>
+			<if test="isSelf">,
+				r.read_flag
+			</if>
+		FROM oa_notify a
+		<include refid="oaNotifyJoins"/>
+		<!-- 我的通知 -->
+		<if test="isSelf">
+			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.user_id = #{currentUser.id}
+		</if>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="title != null and title != ''">
+			AND a.title LIKE
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
+		</if>
+		<if test="type != null and type != ''">
+			AND a.type = #{type}
+		</if>
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>
+		<if test="isSelf">
+			AND a.status = '1'
+		</if>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="OaNotify">
+		SELECT 
+			<include refid="oaNotifyColumns"/>
+		FROM oa_notify a
+		<include refid="oaNotifyJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="findCount" resultType="Long">
+		SELECT 
+			count(1)
+		FROM oa_notify a
+		<if test="isSelf">
+			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.user_id = #{currentUser.id}
+				<if test="readFlag != null and readFlag != ''">
+					AND r.read_flag = #{readFlag}
+				</if>
+		</if>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="isSelf">
+			AND a.status = '1'
+		</if>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_notify(
+			id,
+			type,
+			title,
+			content,
+			files,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			updateDate,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{type},
+			#{title},
+			#{content},
+			#{files},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_notify SET
+			type = #{type},
+			title = #{title},
+			content = #{content},
+			files = #{files},
+			status = #{status},
+			update_by = #{updateBy.id},
+			updateDate = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_notify SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

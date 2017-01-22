@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.CartItemAttributeDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.item_id AS "item.id",
+		a.attribute_item_id AS "attributeItem.id",
+		a.attribute_item_value_id AS "attributeItemValue.id",
+		a.attribute_idstring AS "attributeIdstring",
+		del_flag as "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_cart_item_attribute(
+			id,
+			item_id,
+			attribute_item_id,
+			attribute_item_value_id,
+			attribute_idstring,
+			del_flag)
+		VALUES (
+			#{id},
+			#{item.id},
+			#{attributeItem.id},
+			#{attributeItemValue.id},
+			#{attributeIdstring},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_cart_item_attribute SET
+			item_id = #{item.id},
+			attribute_item_id = #{attributeItem.id},
+			attribute_item_value_id = #{attributeItemValue.id},
+			attribute_idstring = #{attributeIdstring},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="CartItemAttribute">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_cart_item_attribute a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_cart_item_attribute SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="CartItemAttribute">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_cart_item_attribute a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="item != null and item.id != null and item.id != ''">
+				AND a.item_id = #{item.id}
+			</if>
+		</where>
+	</select>
+
+</mapper>

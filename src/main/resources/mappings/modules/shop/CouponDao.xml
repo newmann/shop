@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.CouponDao">
+    
+	<sql id="columns">
+		a.id,
+		a.name,
+		a.desc,
+		a.price,
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.type,
+		a.type_desc AS "typeDesc",
+		a.duration_day AS "durationDay",
+		a.duration_day_desc AS "durationDayDesc",
+		a.count_per_user AS "countPerUser",
+		a.used_type AS "usedType",
+		a.used_type_desc AS "usedTypeDesc",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remark,
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_coupon(
+			id,
+			name,
+			desc,
+			price,
+			start_date,
+			end_date,
+			type,
+			type_desc,
+			duration_day,
+			duration_day_desc,
+			count_per_user,
+			used_type,
+			used_type_desc,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remark,
+			del_flag)
+		VALUES (
+			#{id},
+			#{name},
+			#{desc},
+			#{price},
+			#{startDate},
+			#{endDate},
+			#{type},
+			#{typeDesc},
+			#{durationDay},
+			#{durationDayDesc},
+			#{countPerUser},
+			#{usedType},
+			#{usedTypeDesc},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remark},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_coupon SET
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="Coupon">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_coupon a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_coupon SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="Coupon">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_coupon a
+		<where>
+			a.del_flag = #{delFlag}
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

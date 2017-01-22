@@ -1,0 +1,25 @@
+/***** reset *****/
+li {list-style:none;}
+
+/***** page: admin-order-view *****/
+#order-view .product-list {margin:0;}
+#order-view .product-list li {margin-bottom:20px;}
+#order-view .product-img {display:inline-block; vertical-align:top;}
+#order-view .product-img img {width: 60px; height: 60px; }
+#order-view .product-text {display:inline-block;}
+
+/* 订单状态  */
+.cur-status-wrap {padding:10px;}
+.cur-status-wrap .status-title, .cur-status-wrap .cur-status {font-size: 16px;}
+.cur-status-wrap .cur-status {color:#fa3100;}
+.order-status {padding:0 0 10px; width:400px;}
+.order-status .node {float:left; width:20%;}
+.order-status .node-txt {color:#999; text-align:center; font-size:12px; padding-top:5px;}
+.order-status .node .status-img {width:100%; height:20px; display:block;}
+.order-status .all-red {background: url("../images/admin/icon-order-all-red.png") no-repeat no-repeat center center;}
+.order-status .all-grey {background: url("../images/admin/icon-order-all-grey.png") no-repeat no-repeat center center;}
+.order-status .transparent-red-red {background: url("../images/admin/icon-order-transparent-red-red.png") no-repeat no-repeat center center;}
+.order-status .grey-grey-transparent {background: url("../images/admin/icon-order-grey-grey-transparent.png") no-repeat no-repeat center center;}
+.order-status .red-red-grey {background: url("../images/admin/icon-order-red-red-grey.png") no-repeat no-repeat center center;}
+.order-status .red-grey-grey {background: url("../images/admin/icon-order-red-grey-grey.png") no-repeat no-repeat center center;}
+.order-status .red-red-transparent {background: url("../images/admin/icon-order-red-red-transparent.png") no-repeat no-repeat center center;}

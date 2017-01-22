@@ -1,0 +1,337 @@
+/***** override jquery.mobile-1.4.5.css *****/
+p {
+    font-size: 1.2em;
+}
+.ui-listview > li p {
+    font-size: 1.2em;
+}
+.ui-listview > li h1,
+.ui-listview > li h2,
+.ui-listview > li h3,
+.ui-listview > li h4,
+.ui-listview > li h5,
+.ui-listview > li h6 {
+    font-size: 1.5em;
+}
+.ui-navbar li .ui-btn {
+    font-size: 1.1em;
+}
+.ui-select .ui-btn > span:not(.ui-li-count) {
+    font-size: 1.5em;
+    font-weight: normal;
+}
+.ui-mobile label, div.ui-controlgroup-label {font-size: 1.3em;}
+.ui-link {text-decoration: none;}
+.footer-btn-w .ui-footer .ui-btn {font-size: 1.5em; padding-left: 1.6em; padding-right: 0.6em;}
+
+    /* Make the webviews act less like a browser, and more like an app 在android真机上会导致list空白*/
+/*body {
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+}
+*/
+
+/* 解决闪屏 在android真机上会导致list空白*/
+/*.ui-page { -webkit-backface-visibility: hidden; }*/
+
+/***** Reset *****/
+/* 在android真机上会导致list空白
+body {background-color:#f9f9f9; font:400 14px/1.5 Tahoma,Helvetica,arial,sans-serif; color:#666;}
+blockquote, body, code, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6,
+input, legend, ul, ol, li, p, pre, th, td, textarea {margin:0; padding:0;}
+ol, ul {list-style:outside none none;}
+a {color:#aa2105; text-decoration:none; }
+*/
+li {list-style:outside none none;}
+
+
+/***** Global *****/
+.display-none {display:none;}
+.display-block {display:block;}
+.hide {display:none;}
+.clearfix:after {clear:both; content:"."; display:block; height:0; visibility:hidden;}
+.footer-buttons {margin:auto auto; width: 100%; text-align:center;}
+.btn-back {line-height: 2em;}
+.bg-grey {background: none repeat rgb(153, 153, 153) !important;}
+.bg-red {background: none repeat rgb(153, 0, 0) !important;}
+.product-list .name {display:inline-block; margin-right:1.2em; font-size: 1.5em}
+.product-list .price-box { display:inline-block; }
+.product-list .price-box .price { font-weight: normal; }
+
+
+/***** tools *****/
+/* area-selector */
+.area-selector {float:left; height:26px; margin-right:6px; position:relative; z-index:3; }
+.area-selector a {color:#005aa0; text-decoration: none; font-weight:normal;}
+.area-selector.hover {display:block;}
+.area-selector .area-text {background:none repeat scroll 0 0 #fff; border: 1px solid #cecbce; float: left; height: 23px; line-height: 23px; overflow: hidden; padding: 0 20px 0 4px; position: relative; top: 0;}
+.area-selector .area-content {display:block; background: none repeat scroll 0 0 #fff; border: 1px solid #cecbce; box-shadow: 0 0 5px #ddd; left:-7.8em; padding: 15px; position: absolute; top: 25px; width: 390px;}
+.area-selector .tab-title ul {border-bottom: 2px solid #edd28b; float: left; height: 25px; overflow: visible; width: 100%;}
+.area-selector .tab-title li {cursor:pointer; margin-right:5px; border-color: #ddd;clear: none; float: left; text-align: center;border-style: solid solid none; border-width: 1px 1px 0; color: #000; height: 25px; line-height: 22px; padding: 0 20px 0 10px;}
+.area-selector .tab-title li.current {border-color:#edd28b;background-color: #fff; border-image: none; border-style: solid solid none; border-width: 2px 2px 0; color: #000; height: 25px; line-height: 22px; padding: 0 20px 0 10px;}
+.area-selector .tab-content ul {padding-top: 5px;}
+.area-selector .tab-content li {clear: none; padding: 2px 0 2px 15px;float: left; width: 80px; }
+.area-selector .tab-content li a {float: left; padding: 2px 4px; font-weight:normal;}
+.area-selector .btn-close {background: url("../../images/bg-icon-1.png?v=1") no-repeat; background-position: -257px -86px; height: 17px; left:-8.2em; position: absolute; top:20px; width: 17px; z-index: 2; cursor:pointer;}
+
+/* fixed-footer */
+.payment-total-bar {
+    background: none repeat scroll 0 0 #eaedf1;
+    bottom: 0;
+    height: 4.5em;
+    margin-top: 2em;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+.payment-total-bar span {
+    color: #999;
+    font-size: 10px;
+}
+.payment-total-bar strong{
+    color: #e4393c;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+.shp-cart-total span {
+    color: #e4393c;
+    font-size: 1em;
+}
+.payment-total-bar .cart-checkbox {
+    margin-left: 11px;
+}
+.shp-cart-info {
+    display: block;
+    float: left;
+}
+.shp-cart-total {
+    margin-top: 0.35em;
+    display: block;
+}
+a.btn-right-block {
+    background: none repeat scroll 0 0 #e4393c;
+    color: #fff;
+    display: block;
+    float: right;
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 3em;
+    padding: 0 1em;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+}
+a.btn-right-block:hover {
+    color: #fff;
+}
+.btn-right-block span {
+    color: #fff;
+    font-size: 14px;
+}
+
+/* quantity-wrapper */
+.quantity-wrapper {
+    display: inline-block;
+}
+.quantity-decrease, .quantity, .quantity-increase {
+    float: left;
+    font-size: 14px;
+    text-align: center;
+}
+.quantity-decrease, .quantity-increase {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #666;
+    display: block;
+    width: 1.4em;
+    overflow: hidden;
+    text-indent: -200px;
+    background: url(../../app/images/shp-cart-icon-sprites.png?v=1) no-repeat -15px -18px;
+    background-size: 50px 100px;
+}
+.quantity-decrease {
+    -webkit-border-radius: 2px 0 0 2px;
+    background-position: 10px -18px;
+}
+.quantity {
+    color: #333;
+    border: solid #ccc;
+    border-width: 1px 0 1px 0;
+    height: 2.1em;
+    width: 2.5em;
+    border-radius: 0;
+}
+.quantity-increase {
+    -webkit-border-radius: 0 2px 2px 0;
+}
+.quantity-decrease.disabled, .quantity-increase.disabled {
+    background-color: #e8e8e8;
+    color: #999;
+    background-position: 10px -45px;
+}
+.quantity-increase.disabled {
+    background-position: -15px -45px;
+}
+
+/* price-box */
+.price-box .price {font-size:1.5em; font-weight:bold;}
+.price-box .original-price {color:#999; font-size:1em; text-decoration:line-through;}
+.price-box .original-word {color:#999; font-size:1em; margin-left:10px;}
+
+/* nologin-tip */
+.tip {background: none repeat scroll 0 0 #fffdee; border: 1px solid #edd28b; color: #f70; line-height: 25px; margin-bottom: 20px; padding: 10px 20px;}
+.tip .tip-text {font-size: 1.3em;margin-bottom: 10px;}
+.tip i {background: url("../../app/images/icon-warning1.png") no-repeat scroll 0 0; display: inline-block; height: 16px; margin-right: 10px; overflow: hidden; vertical-align: middle; width: 16px;}
+.tip a {display: inline-block;margin:0;}
+.tip .ui-btn {font-size:1.5em;}
+
+/* message-box */
+#message-box .close-btn {display: inline-block; float:right; font-size: 1.5em; float: right;}
+
+
+/***** page: app-index-index *****/
+
+
+/***** page: app-product-view *****/
+.detail-img {
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    width: 200px;;
+}
+
+
+/***** page: app-preorder-view *****/
+#preorder {padding-bottom: 1em;}
+#preorder .ui-select {display: inline-block;}
+#preorder .ui-select .ui-btn {padding-top: 0.3em; padding-bottom: 0.3em;}
+#preorder .ui-select .ui-btn > span {font-size: 1em;}
+#preorder #address-t-content .ui-listview > .ui-li-static {padding: 0.6em 0 0.6em 0.2em;}
+#preorder .area-selector .area-text {cursor:pointer; height: 30px; line-height: 30px; }
+#preorder #step-1 {border-top: none; }
+#preorder #step-1 .content, #preorder #step-2 .content {font-size: 1.5em; }
+#preorder #step-1 .title, #preorder #step-2 .title, #preorder #step-3 .title {font-size: 1.5em; font-weight: 700; color: #38c;}
+#preorder .step {border-top:1px solid #ddd;}
+#preorder .step .title {height: 45px; line-height: 45px;}
+#preorder .step .content {padding:0 22px 22px;}
+#preorder #address-t-content .list {height:22px; padding:8px 0;}
+#preorder #address-t-content .label {float: left; height: 26px; line-height: 26px; margin-right: 5px; text-align: right; width: 85px;}
+#preorder #address-t-content .label em {color: #f60; font-family: sans-serif; margin-right: 5px;}
+#preorder #address-t-content .field {float: left; height: 26px; line-height: 26px;}
+#preorder #address-t-content .address .textbox {width:300px;}
+#preorder .payment-total-bar .shp-cart-info {padding-left:1em;}
+#preorder .preorder-list {margin-bottom: 70px; margin-top:0;}
+
+
+/***** app-cart-index *****/
+#app-cart-index .ui-content {padding:0;}
+#cart {margin:1em;}
+#cart .ui-select {display: inline-block; margin:0; padding:0;}
+#cart .ui-btn {padding-top: 0.3em; padding-bottom: 0.3em;}
+.shp-cart-list {padding:0 0 2em 0;}
+.shp-cart-list li, .shp-cart-promotion-list li {
+    padding-bottom: 1em;
+    border-width: 0 0 1px 0;
+    -webkit-border-image: url("") 2 0 stretch;
+}
+.shp-cart-list li {
+    min-height: 6.5em;
+    list-style:outside none none;
+}
+.cart-product-cell-1 {
+    float: left;
+    margin-right: 1em;
+}
+.cart-product-cell-2 {
+    color: #555;
+}
+.cart-photo-thumb {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #dddcdc;
+    background: url('../../app/images/logo.jpg') no-repeat center center;
+    background-size: 25px 10px;
+}
+.shp-cart-item-core {
+    min-height: 7em;
+}
+.shp-chk {
+    width: 38px;
+    float: left;
+    text-align: center;
+    overflow: hidden;
+    padding-top: 15px;
+}
+.cart-checkbox {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    background: url(../../app/images/shp-cart-icon-sprites.png?v=1) no-repeat 0 0;
+    background-size: 50px 100px;
+}
+.cart-checkbox.checked {
+    background-position: -25px 0;
+}
+#cart .price-box { width: 11em; display:inline-block; }
+#cart .price-box .price { font-size: 1.3em; font-weight: normal; }
+#cart .price-box .original-price { font-size: 13px; }
+.cart-product-name {
+    color: #666;
+}
+.cart-product-attr {
+    color: #666;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    margin-top: 0.3em;
+}
+#cart .payment-total-bar {height: 9.5em;}
+#cart .shp-cart-list a {font-weight: normal; color: #555; font-size: 1.5em;}
+
+
+/***** app-order-view *****/
+#order-view .step {border-top:1px solid #ddd;}
+#order-view .step .title {height: 45px; line-height: 45px;}
+#order-view .step .content {padding:0 22px 22px;}
+#order-view #step-1 {border-top:none;}
+#order-view .order-list li {padding-top: 0;padding-bottom: 0;}
+
+
+/***** app-order-list *****/
+#order-list .title {margin-bottom: 0.5em;}
+#order-list .content img {width: 60px; height: 60px; margin-right:0.6em;}
+
+
+/***** app-info-index *****/
+#info .ui-btn {font-size: 1.5em;}
+.head-img {text-align: center;}
+.head-img .my-name {margin-top:0;}
+.head-img .my-img {
+    background-image: url("../../app/images/my-head-default.png");
+    background-size: cover;
+    border: 0.125em solid #fff;
+    border-radius: 4em;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2) inset;
+    display: inline-block;
+    height: 3.8125em;
+    overflow: hidden;
+    width: 3.8125em;
+}
+
+
+/***** app-user-login *****/
+#user-login .btn {font-size: 1.5em; margin-top: 3em;}
+
+
+/***** app-user-index *****/
+#user-index #logout-w {margin-top:2em;}
+#user-index label, #user-index a {font-size: 1.5em;}
+
+
+/***** app-user-register *****/
+#user-register #register-code-w > [class*="ui-"] {width: 35%; display:inline-block;}
+#user-register #register-code-w input {display:inline-block;}
+#user-register #get-register-code {width: 30%;display:inline-block;float:right;}
+#user-register .btn {font-size: 1.5em; margin-top: 3em;}

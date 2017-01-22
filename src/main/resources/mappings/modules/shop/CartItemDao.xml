@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.CartItemDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.cart_id AS "cart.id",
+		a.product_id AS "product.id",
+		a.count AS "count",
+		a.is_ordered AS "isOrdered",
+		a.is_selected AS "isSelected",
+		a.user_id AS "userId",
+		a.cookie_id AS "cookieId",
+		a.app_cart_cookie_id AS "appCartCookieId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="productColumns">
+		p.name AS "product.name",
+		p.image AS "product.image",
+		p.image_small AS "product.imageSmall",
+		p.featured AS "product.featured",
+		p.featured_image AS "product.featuredImage",
+		p.app_featured_home AS "product.appFeaturedHome",
+		p.app_featured_home_sort AS "product.appFeaturedHomeSort",
+		p.app_featured_image AS "product.appFeaturedImage",
+		p.short_description AS "product.shortDescription",
+		p.description AS "product.description",
+		p.price AS "product.price",
+		p.featured_price AS "product.featuredPrice"
+	</sql>
+	
+	<sql id="joins">
+		JOIN shop_cart c ON c.id = a.cart_id
+		JOIN shop_product p ON p.id = a.product_id
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_cart_item(
+			id,
+			cart_id,
+			product_id,
+			count,
+			is_ordered,
+			is_selected,
+			user_id,
+			cookie_id,
+			app_cart_cookie_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		VALUES (
+			#{id},
+			#{cart.id},
+			#{product.id},
+			#{count},
+			#{isOrdered},
+			#{isSelected},
+			#{userId},
+			#{cookieId},
+			#{appCartCookieId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_cart_item SET
+		cart_id = #{cart.id},
+		product_id = #{product.id},
+		count = #{count},
+		is_ordered = #{isOrdered},
+		is_selected = #{isSelected},
+		user_id = #{userId},
+		cookie_id = #{cookieId},
+		app_cart_cookie_id = #{appCartCookieId},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="CartItem">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_cart_item a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findByCartIdProductId" resultType="CartItem">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_cart_item a
+		<where>
+			a.cart_id = #{cart.id}
+			AND a.product_id = #{product.id}
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+	</select>
+
+	<update id="delete">
+		UPDATE shop_cart_item SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="CartItem">
+		SELECT 
+			<include refid="columns"/>,
+			<include refid="productColumns"/>
+		FROM shop_cart_item a
+			<include refid="joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="cart != null and cart.id != null and cart.id != ''">
+				AND a.cart_id = #{cart.id}
+			</if>
+            <if test="userId != null and userId != ''">
+                AND a.user_id = #{userId}
+            </if>
+			<if test="cart != null and cart.cookie != null and cart.cookie.id != null and cart.cookie.id != ''">
+				AND c.cookie_id = #{cart.cookie.id}
+			</if>
+			<if test="appCartCookieId != null and appCartCookieId != ''">
+				AND a.app_cart_cookie_id = #{appCartCookieId}
+			</if>
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+			<if test="isSelected != null and isSelected != ''">
+				AND a.is_selected = #{isSelected}
+			</if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="findByCookieId" resultType="CartItem">
+        SELECT
+        <include refid="columns"/>,
+        <include refid="productColumns"/>
+        FROM shop_cart_item a
+        JOIN shop_product p ON p.id = a.product_id
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            AND a.cookie_id = #{cookieId}
+            <if test="isOrdered != null and isOrdered != ''">
+                AND a.is_ordered = #{isOrdered}
+            </if>
+            <if test="isSelected != null and isSelected != ''">
+                AND a.is_selected = #{isSelected}
+            </if>
+        </where>
+        ORDER BY a.update_date DESC
+    </select>
+
+	<select id="findByAppCartCookieId" resultType="CartItem">
+		SELECT
+		<include refid="columns"/>,
+		<include refid="productColumns"/>
+		FROM shop_cart_item a
+		JOIN shop_product p ON p.id = a.product_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.app_cart_cookie_id = #{appCartCookieId}
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+            <if test="isSelected != null and isSelected != ''">
+                AND a.is_selected = #{isSelected}
+            </if>
+		</where>
+		ORDER BY a.update_date DESC
+	</select>
+
+    <select id="findByUserId" resultType="CartItem">
+        SELECT
+        <include refid="columns"/>,
+        <include refid="productColumns"/>
+        FROM shop_cart_item a
+        JOIN shop_product p ON p.id = a.product_id
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            AND a.user_id = #{userId}
+            <if test="isOrdered != null and isOrdered != ''">
+                AND a.is_ordered = #{isOrdered}
+            </if>
+            <if test="isSelected != null and isSelected != ''">
+                AND a.is_selected = #{isSelected}
+            </if>
+        </where>
+        ORDER BY a.update_date DESC
+    </select>
+
+	<select id="countByUserId" resultType="map">
+		SELECT sum(count) count
+		FROM shop_cart_item a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.user_id = #{userId}
+			<if test="isSelected != null and isSelected != ''">
+				AND a.is_selected = #{isSelected}
+			</if>
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+		</where>
+	</select>
+
+	<select id="countByCookieId" resultType="map">
+		SELECT sum(count) count
+		FROM shop_cart_item a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.cookie_id = #{cookieId}
+			<if test="isSelected != null and isSelected != ''">
+				AND a.is_selected = #{isSelected}
+			</if>
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+		</where>
+	</select>
+
+	<select id="countByAppCartCookieId" resultType="map">
+		SELECT sum(count) count
+		FROM shop_cart_item a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.app_cart_cookie_id = #{appCartCookieId}
+			<if test="isSelected != null and isSelected != ''">
+				AND a.is_selected = #{isSelected}
+			</if>
+			<if test="isOrdered != null and isOrdered != ''">
+				AND a.is_ordered = #{isOrdered}
+			</if>
+		</where>
+	</select>
+
+    <update id="clearByUserId">
+        UPDATE shop_cart_item SET
+            del_flag = #{DEL_FLAG_DELETE}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteByCookieId">
+        DELETE FROM shop_cart_item WHERE cookie_id = #{cookieId} AND cookie_id IS NOT NULL
+    </delete>
+
+	<delete id="deleteByAppCartCookieId">
+		DELETE FROM shop_cart_item WHERE app_cart_cookie_id = #{appCartCookieId} AND app_cart_cookie_id IS NOT NULL
+	</delete>
+</mapper>

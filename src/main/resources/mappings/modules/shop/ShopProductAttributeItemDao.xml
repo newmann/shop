@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.ShopProductAttributeItemDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.name AS "name",
+		a.print_name AS "printName",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.sort AS "sort",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_product_attribute_item (
+			id,
+			name,
+			print_name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			sort,
+			remarks,
+			del_flag)
+		VALUES (
+			#{id},
+			#{name},
+			#{printName},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{sort},
+			#{remarks},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_product_attribute_item SET
+			name = #{name},
+			print_name = #{printName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			sort = #{sort},
+			remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+    <select id="get" resultType="ShopProductAttributeItem">
+        SELECT
+        	<include refid="columns"/>
+        FROM shop_product_attribute_item a
+        WHERE a.id = #{id}
+    </select>
+
+	<update id="delete">
+		UPDATE shop_product_attribute_item SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="ShopProductAttributeItem">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_product_attribute_item a
+		<where>
+			a.del_flag = #{delFlag}
+		</where>
+		ORDER BY a.sort
+	</select>
+
+</mapper>

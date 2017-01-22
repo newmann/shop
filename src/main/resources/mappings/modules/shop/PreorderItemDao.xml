@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.PreorderItemDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.preorder_id AS "preorder.id",
+		a.cart_item_id AS "cartItem.id",
+		a.product_id AS "product.id",
+		a.name AS "name",
+		a.count AS "count",
+		a.price AS "price",
+		a.subtotal_price AS "subtotalPrice",
+		a.image AS "image",
+		a.image_small AS "imageSmall",
+		a.featured_image AS "featuredImage",
+		a.type,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="joins">
+		JOIN shop_preorder po ON po.id = a.preorder_id
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_preorder_item(
+			id,
+			preorder_id,
+			cart_item_id,
+			product_id,
+			name,
+			count,
+			price,
+			subtotal_price,
+			image,
+			image_small,
+			featured_image,
+			type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		VALUES (
+			#{id},
+			#{preorder.id},
+			#{cartItem.id},
+			#{product.id},
+			#{name},
+			#{count},
+			#{price},
+			#{subtotalPrice},
+			#{image},
+			#{imageSmall},
+			#{featuredImage},
+			#{type},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_preorder_item SET
+			preorder_id = #{preorder.id},
+			cart_item_id = #{cartItem.id},
+			product_id = #{product.id},
+			name = #{name},
+			count = #{count},
+			price = #{price},
+			subtotal_price = #{subtotalPrice},
+			image = #{image},
+			image_small = #{imageSmall},
+			featured_image = #{featuredImage},
+			type = #{type},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="PreorderItem">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_preorder_item a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_preorder_item SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="PreorderItem">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_preorder_item a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="preorder != null and preorder.id != null and preorder.id != ''">
+				AND a.preorder_id = #{preorder.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+</mapper>

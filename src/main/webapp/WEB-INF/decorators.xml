@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/views">
+	
+	<!-- 默认装饰页面, 在需要装饰的页面增加<meta name="decorator" content="default"/> -->
+	<decorator name="blank" page="layouts/blank.jsp" />
+	<decorator name="default" page="layouts/default.jsp" />
+	
+	<!-- CMS基础主题装饰页面 -->
+	<decorator name="cms_default_basic" page="modules/cms/front/themes/basic/layouts/default.jsp" />
+	<decorator name="cms_default_weixin" page="modules/cms/front/themes/weixin/layouts/default.jsp" />
+
+	<!-- shop module 装饰页面 -->
+	<decorator name="shop_default" page="modules/shop/layouts/default.jsp" />
+
+	<!-- app module 装饰页面 -->
+	<decorator name="app_default" page="modules/app/layouts/default.jsp" />
+	<decorator name="app_default_nofooter" page="modules/app/layouts/default_nofooter.jsp" />
+</decorators>

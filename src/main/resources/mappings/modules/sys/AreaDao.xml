@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.sys.dao.AreaDao">
+
+	<sql id="columns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		a.code,
+		a.name,
+		a.sort,
+		a.type,
+		a.simple_name AS "simpleName",
+        a.level AS "level",
+        a.path_ids AS "pathIds",
+        a.path_names AS "pathNames",
+        a.zip_code AS "zipCode",
+        a.store_id AS "storeId",
+        a.shipping_group AS "shippingGroup",
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag
+	</sql>
+    
+	<sql id="areaColumns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		a.code,
+		a.name,
+		a.sort,
+		a.type,
+		a.simple_name AS "simpleName",
+        a.level AS "level",
+        a.path_ids AS "pathIds",
+        a.path_names AS "pathNames",
+        a.zip_code AS "zipCode",
+        a.store_id AS "storeId",
+        a.shipping_group AS "shippingGroup",
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		p.name AS "parent.name"
+	</sql>
+	
+	<sql id="areaJoins">
+		LEFT JOIN sys_office p ON p.id = a.parent_id
+    </sql>
+
+	<insert id="insert">
+		INSERT INTO sys_area(
+		id,
+		parent_id,
+		parent_ids,
+		code,
+		name,
+		sort,
+		type,
+		simple_name,
+		level,
+		path_ids,
+		path_names,
+		zip_code,
+		store_id,
+		shipping_group,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) VALUES (
+		#{id},
+		#{parent.id},
+		#{parentIds},
+		#{code},
+		#{name},
+		#{sort},
+		#{type},
+		#{simpleName},
+		#{level},
+		#{pathIds},
+		#{pathNames},
+		#{zipCode},
+		#{storeId},
+		#{shippingGroup},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE sys_area SET
+		parent_id = #{parent.id},
+		parent_ids = #{parentIds},
+		code = #{code},
+		name = #{name},
+		sort = #{sort},
+		type = #{type},
+		simple_name = #{simpleName},
+		level = #{level},
+		path_ids = #{pathIds},
+		path_names = #{pathNames},
+		zip_code = #{zipCode},
+		store_id = #{storeId},
+		shipping_group = #{shippingGroup},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="Area">
+		SELECT
+		<include refid="areaColumns"/>
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="gets" resultType="Area">
+		SELECT
+			<include refid="columns"/>
+		FROM sys_area a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Area">
+		SELECT
+			<include refid="areaColumns"/>
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		OR a.id = #{currentUser.office.area.id}
+		ORDER BY a.code
+	</select>
+	
+	<select id="findAllList" resultType="Area">
+		SELECT
+			<include refid="areaColumns"/>
+		FROM sys_area a
+			<include refid="areaJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		ORDER BY a.code
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="Area">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids
+		FROM sys_area a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
+		ORDER BY a.code
+	</select>
+	
+	<update id="updateParentIds">
+		UPDATE sys_area SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_area SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+	</update>
+
+	<select id="findLists" resultType="Area">
+		SELECT
+			<include refid="columns"/>
+		FROM sys_area a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

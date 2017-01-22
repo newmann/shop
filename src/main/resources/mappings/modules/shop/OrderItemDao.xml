@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.OrderItemDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.order_id AS "order.id",
+		a.preorder_item_id AS "preorderItem.id",
+		a.cart_item_id AS "cartItem.id",
+		a.product_id AS "product.id",
+		a.name AS "name",
+		a.count AS "count",
+		a.price AS "price",
+		a.subtotal_price AS "subtotalPrice",
+		a.image AS "image",
+		a.image_small AS "imageSmall",
+		a.featured_image AS "featuredImage",
+	    a.user_id AS "user.id",
+	    a.type,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="joins">
+		JOIN shop_order o ON o.id = a.order_id
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_order_item(
+			id,
+			order_id,
+			preorder_item_id,
+			cart_item_id,
+			product_id,
+			name,
+			count,
+			price,
+			subtotal_price,
+			image,
+			image_small,
+			featured_image,
+			user_id,
+			type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		VALUES (
+			#{id},
+			#{order.id},
+			#{preorderItem.id},
+			#{cartItem.id},
+			#{product.id},
+			#{name},
+			#{count},
+			#{price},
+			#{subtotalPrice},
+			#{image},
+			#{imageSmall},
+			#{featuredImage},
+			#{user.id},
+			#{type},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_order_item SET
+		    order_id = #{order.id},
+			preorder_item_id = #{preorderItem.id},
+			cart_item_id = #{cartItem.id},
+			product_id = #{product.id},
+			name = #{name},
+			count = #{count},
+			price = #{price},
+			subtotal_price = #{subtotalPrice},
+			image = #{image},
+			image_small = #{imageSmall},
+			featured_image = #{featuredImage},
+			user_id = #{user.id},
+			type = #{type},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="OrderItem">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_order_item a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_order_item SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="OrderItem">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_order_item a
+		<where>
+			1 = 1
+			<if test="order != null and order.id != null and order.id != ''">
+				AND a.order_id = #{order.id}
+			</if>
+            <if test="sqlMap != null and sqlMap.where != null and sqlMap.where != ''">
+                AND ${sqlMap.where}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                AND a.del_flag = #{delFlag}
+            </if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="findTopSeller4App" resultType="map">
+        SELECT
+          product_id AS productId,
+          SUM(count) AS totalCount
+        FROM shop_order_item
+        GROUP BY product_id
+        ORDER BY totalCount DESC
+        limit 30
+    </select>
+</mapper>

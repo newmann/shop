@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.CollectProductDao">
+    
+	<sql id="columns">
+		a.id,
+		a.product_id AS "product.id",
+		a.user_id AS "user.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_collect_product(
+			id,
+			product_id,
+			user_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		VALUES (
+			#{id},
+			#{product.id},
+			#{user.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_collect_product SET
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="CollectProduct">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_collect_product a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_collect_product SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="CollectProduct">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_collect_product a
+		<where>
+			1 = 1
+            <if test="user != null and user.id != null and user.id != ''">
+                AND a.user_id = #{user.id}
+            </if>
+            <if test="product != null and product.id != null and product.id != ''">
+                AND a.product_id = #{product.id}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                AND a.del_flag = #{delFlag}
+            </if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="hasCollected" resultType="map">
+        SELECT count(1) count
+        FROM shop_collect_product a
+        <where>
+            a.user_id = #{user.id}
+            AND a.product_id = #{product.id}
+            AND a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.SeziDao">
+    
+	<sql id="columns">
+		a.id,
+		a.num,
+		a.user_id AS "userId",
+		a.is_max_in_day AS "isMaxInDay",
+		a.price,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_sezi(
+		id,
+		num,
+		user_id,
+		is_max_in_day,
+		price,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag)
+		VALUES (
+		#{id},
+		#{num},
+		#{userId},
+		#{isMaxInDay},
+		#{price},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_sezi SET
+		num = #{num},
+		user_id = #{userId},
+		is_max_in_day = #{isMaxInDay},
+		price = #{price},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="Sezi">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_sezi a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_sezi SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="Sezi">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_sezi a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="userId != null and userId != ''">
+				AND a.user_id = #{userId}
+			</if>
+			<if test="sqlMap != null and sqlMap.where != null and sqlMap.where != ''">
+				AND ${sqlMap.where}
+			</if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="countDailyShakeByUserId" resultType="map">
+        SELECT
+            count(1) AS count
+        FROM shop_sezi a
+        <where>
+            a.del_flag = #{delFlag}
+            AND a.user_id = #{userId}
+            AND ${sqlMap.where}
+        </where>
+    </select>
+
+</mapper>

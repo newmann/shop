@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.PreorderDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.ip AS "ip",
+		a.cookie_id AS "cookie.id",
+		a.cart_id AS "cart.id",
+		a.total_count AS "totalCount",
+		a.total_price AS "totalPrice",
+		a.is_ordered AS "isOrdered",
+		a.user_id AS "user.id",
+		a.coupon_user_id AS "couponUser.id",
+		a.coupon_user_total_price AS "couponUserTotalPrice",
+		a.origin_total_price AS "originTotalPrice",
+        a.area_id AS "area.id",
+        a.area_name AS "areaName",
+        a.area_parent_id AS "areaParentId",
+        a.area_path_ids AS "areaPathIds",
+        a.area_path_names AS "areaPathNames",
+        a.area_simple_name AS "areaSimpleName",
+        a.area_zip_code AS "areaZipCode",
+        a.store_id AS "storeId",
+        a.address_fullname AS "addressFullname",
+        a.address_telephone AS "addressTelephone",
+        a.address_detail AS "addressDetail",
+        a.address_id AS "addressId",
+        a.pay_type AS "payType",
+        a.rough_pay_type AS "roughPayType",
+        a.min_total_price_label AS "minTotalPriceLabel",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_preorder(
+			id,
+			ip,
+			cookie_id,
+			cart_id,
+			total_count,
+			total_price,
+			is_ordered,
+			user_id,
+    		coupon_user_id,
+	    	coupon_user_total_price,
+		    origin_total_price,
+            area_id,
+            area_name,
+            area_parent_id,
+            area_path_ids,
+            area_path_names,
+            area_simple_name,
+            area_zip_code,
+            store_id,
+            address_fullname,
+            address_telephone,
+            address_detail,
+            address_id,
+            pay_type,
+            rough_pay_type,
+            min_total_price_label,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		VALUES (
+			#{id},
+			#{ip},
+			#{cookie.id},
+			#{cart.id},
+			#{totalCount},
+			#{totalPrice},
+			#{isOrdered},
+			#{user.id},
+            #{couponUser.id},
+            #{couponUserTotalPrice},
+            #{originTotalPrice},
+            #{area.id},
+            #{areaName},
+            #{areaParentId},
+            #{areaPathIds},
+            #{areaPathNames},
+            #{areaSimpleName},
+            #{areaZipCode},
+            #{storeId},
+            #{addressFullname},
+            #{addressTelephone},
+            #{addressDetail},
+            #{addressId},
+            #{payType},
+            #{roughPayType},
+            #{minTotalPriceLabel},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_preorder SET
+			cart_id = #{cart.id},
+			total_count = #{totalCount},
+			total_price = #{totalPrice},
+			cookie_id = #{cookie.id},
+			is_ordered = #{isOrdered},
+			user_id = #{user.id},
+            coupon_user_id = #{couponUser.id},
+            coupon_user_total_price = #{couponUserTotalPrice},
+            origin_total_price = #{originTotalPrice},
+            area_id = #{area.id},
+            area_name = #{areaName},
+            area_parent_id = #{areaParentId},
+            area_path_ids = #{areaPathIds},
+            area_path_names = #{areaPathNames},
+            area_simple_name = #{areaSimpleName},
+            area_zip_code = #{areaZipCode},
+            store_id = #{storeId},
+            address_fullname = #{addressFullname},
+            address_telephone = #{addressTelephone},
+            address_detail = #{addressDetail},
+            pay_type = #{payType},
+            rough_pay_type = #{roughPayType},
+            min_total_price_label = #{minTotalPriceLabel},
+            address_id = #{addressId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="Preorder">
+		SELECT
+		<include refid="columns"/>
+		FROM shop_preorder a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_preorder SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="Preorder">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_preorder a
+		<where>
+            1 = 1
+            <if test="storeId != null and storeId != ''">
+                AND a.store_id = #{storeId}
+            </if>
+			a.del_flag = #{delFlag}
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.ShopProductAttributeItemValueDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.name AS "name",
+		a.price AS "price",
+		a.item_id AS "item.id",
+		a.print_name AS "printName",
+		a.is_standard AS "isStandard",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.sort AS "sort",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_product_attribute_item_value (
+			id,
+			name,
+			price,
+			item_id,
+			print_name,
+			is_standard,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			sort,
+			remarks,
+			del_flag)
+		VALUES (
+			#{id},
+			#{name},
+			#{price},
+			#{item.id},
+			#{printName},
+			#{isStandard},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{sort},
+			#{remarks},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_product_attribute_item_value SET
+			name = #{name},
+			price = #{price},
+			item_id = #{item.id},
+			print_name = #{printName},
+			is_standard = #{isStandard},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			sort = #{sort},
+			remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+    <select id="get" resultType="ShopProductAttributeItemValue">
+        SELECT
+        	<include refid="columns"/>
+        FROM shop_product_attribute_item_value a
+        WHERE a.id = #{id}
+    </select>
+
+	<update id="delete">
+		UPDATE shop_product_attribute_item_value SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="ShopProductAttributeItemValue">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_product_attribute_item_value a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="item != null and item.id != null and item.id != ''">
+				AND a.item_id = #{item.id}
+			</if>
+		</where>
+		ORDER BY a.sort
+	</select>
+
+</mapper>

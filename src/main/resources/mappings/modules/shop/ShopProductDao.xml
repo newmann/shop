@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.ShopProductDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.name AS "name",
+		a.image AS "image",
+		a.image_small AS "imageSmall",
+		a.image_medium AS "imageMedium",
+		a.image_large AS "imageLarge",
+		a.featured AS "featured",
+		a.featured_image AS "featuredImage",
+		a.short_description AS "shortDescription",
+		a.description AS "description",
+		a.meta_keywords AS "metaKeywords",
+		a.meta_description AS "metaDescription",
+		a.sort AS "sort",
+		a.is_audit AS "isAudit",
+		a.price AS "price",
+		a.featured_price AS "featuredPrice",
+		a.featured_position AS "featuredPosition",
+		a.featured_position_sort AS "featuredPositionSort",
+		a.status,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.category_id AS "category.id",
+		a.app_featured_home AS "appFeaturedHome",
+		a.app_featured_home_sort AS "appFeaturedHomeSort",
+		a.app_featured_topic AS "appFeaturedTopic",
+		a.app_featured_topic_sort AS "appFeaturedTopicSort",
+		a.app_featured_image AS "appFeaturedImage",
+		a.app_long_image1 AS "appLongImage1",
+		a.app_long_image2 AS "appLongImage2",
+		a.app_long_image3 AS "appLongImage3",
+		a.app_long_image4 AS "appLongImage4",
+		a.app_long_image5 AS "appLongImage5",
+		a.type
+	</sql>
+
+	<sql id="joinColumns">
+		c.name AS "category.name"
+	</sql>
+	
+	<sql id="joins">
+		INNER JOIN shop_category c ON c.id = a.category_id
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_product(
+			id,
+			category_id,
+			name,
+			image,
+			image_small,
+			image_medium,
+			image_large,
+			featured,
+			featured_image,
+			short_description,
+			description,
+			meta_keywords,
+			meta_description,
+			sort,
+			price,
+			featured_price,
+			featured_position,
+			featured_position_sort,
+			is_audit,
+			app_featured_home,
+			app_featured_home_sort,
+			app_featured_image,
+			app_featured_topic,
+			app_featured_topic_sort,
+			app_long_image1,
+			app_long_image2,
+			app_long_image3,
+			app_long_image4,
+			app_long_image5,
+			type,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)
+		VALUES (
+			#{id},
+			#{category.id},
+			#{name},
+			#{image},
+			#{imageSmall},
+			#{imageMedium},
+			#{imageLarge},
+			#{featured},
+			#{featuredImage},
+			#{shortDescription},
+			#{description},
+			#{metaKeywords},
+			#{metaDescription},
+			#{sort},
+			#{price},
+			#{featuredPrice},
+			#{featuredPosition},
+			#{featuredPositionSort},
+			#{isAudit},
+			#{appFeaturedHome},
+			#{appFeaturedHomeSort},
+			#{appFeaturedImage},
+			#{appFeaturedTopic},
+			#{appFeaturedTopicSort},
+			#{appLongImage1},
+			#{appLongImage2},
+			#{appLongImage3},
+			#{appLongImage4},
+			#{appLongImage5},
+			#{type},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_product SET
+			category_id = #{category.id},
+			name = #{name},
+			image = #{image},
+			image_small = #{imageSmall},
+			image_medium = #{imageMedium},
+			image_large = #{imageLarge},
+			featured = #{featured},
+			featured_image = #{featuredImage},
+			short_description = #{shortDescription},
+			description = #{description},
+			meta_keywords = #{metaKeywords},
+			meta_description = #{metaDescription},
+			sort = #{sort},
+			price = #{price},
+			featured_price = #{featuredPrice},
+			featured_position = #{featuredPosition},
+			featured_position_sort = #{featuredPositionSort},
+			is_audit = #{isAudit},
+			app_featured_home = #{appFeaturedHome},
+			app_featured_home_sort = #{appFeaturedHomeSort},
+			app_featured_topic = #{appFeaturedTopic},
+			app_featured_topic_sort = #{appFeaturedTopicSort},
+			app_featured_image = #{appFeaturedImage},
+			app_long_image1 = #{appLongImage1},
+			app_long_image2 = #{appLongImage2},
+			app_long_image3 = #{appLongImage3},
+			app_long_image4 = #{appLongImage4},
+			app_long_image5 = #{appLongImage5},
+			type = #{type},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="ShopProduct">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_product a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_product SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="ShopProduct">
+		SELECT 
+			<include refid="columns"/>
+			<if test="sqlMap.withJoins == 'true'">
+				,<include refid="joinColumns"/>
+			</if>
+		FROM shop_product a
+			<if test="sqlMap.withJoins == 'true'">
+				<include refid="joins"/>
+			</if>
+		<where>
+			1 = 1
+			<if test="category != null and category.id != null and category.id != ''">
+				AND a.category_id = #{category.id}
+			</if>
+			<if test="featuredPosition != null and featuredPosition != ''">
+				AND a.featured_position LIKE
+					<if test="dbName == 'oracle'">'%'||#{featuredPosition}||'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{featuredPosition}, '%')</if>
+			</if>
+			<if test="appFeaturedHome != null and appFeaturedHome != ''">
+				AND a.app_featured_home = #{appFeaturedHome}
+			</if>
+			<if test="appFeaturedTopic != null and appFeaturedTopic != ''">
+				AND a.app_featured_topic = #{appFeaturedTopic}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findFeaturedPrice" resultType="ShopProduct">
+		SELECT
+		<include refid="columns"/>
+		FROM shop_product a
+		<where>
+			a.del_flag = #{delFlag} AND
+			a.featured_price > 0
+		</where>
+        ORDER BY a.featured_price DESC
+	</select>
+
+</mapper>

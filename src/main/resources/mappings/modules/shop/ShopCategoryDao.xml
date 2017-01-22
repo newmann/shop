@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.ShopCategoryDao">
+    
+	<sql id="columns">
+		a.id AS "id",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.name AS "name",
+		a.image AS "image",
+		a.image_small AS "imageSmall",
+		a.image_medium AS "imageMedium",
+		a.image_large AS "imageLarge",
+		a.featured AS "featured",
+		a.featured_image AS "featuredImage",
+		a.app_featured_home AS "appFeaturedHome",
+		a.app_featured_home_sort AS "appFeaturedHomeSort",
+		a.short_description AS "shortDescription",
+		a.href AS "href",
+		a.href_target AS "hrefTarget",
+		a.meta_keywords AS "metaKeywords",
+		a.meta_description AS "metaDescription",
+		a.sort AS "sort",
+		a.is_audit AS "isAudit",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="joins">
+	    LEFT JOIN shop_category c ON c.id = a.parent_id
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_category(
+			id,
+			parent_id,
+			parent_ids,
+			name,
+			image,
+			image_small,
+			image_medium,
+			image_large,
+			featured,
+			featured_image,
+			app_featured_home,
+			app_featured_home_sort,
+			short_description,
+			href,
+			href_target,
+			meta_keywords,
+			meta_description,
+			sort,
+			is_audit,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)
+		VALUES (
+			#{id},
+			#{parent.id},
+			#{parentIds},
+			#{name},
+			#{image},
+			#{imageSmall},
+			#{imageMedium},
+			#{imageLarge},
+			#{featured},
+			#{featuredImage},
+			#{appFeaturedHome},
+			#{appFeaturedHomeSort},
+			#{shortDescription},
+			#{href},
+			#{hrefTarget},
+			#{metaKeywords},
+			#{metaDescription},
+			#{sort},
+			#{isAudit},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_category SET
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds},
+			name = #{name},
+			image = #{image},
+			image_small = #{imageSmall},
+			image_medium = #{imageMedium},
+			image_large = #{imageLarge},
+			featured = #{featured},
+			featured_image = #{featuredImage},
+			app_featured_home = #{appFeaturedHome},
+			app_featured_home_sort = #{appFeaturedHomeSort},
+			href = #{href},
+			href_target = #{hrefTarget},
+			meta_keywords = #{metaKeywords},
+			meta_description = #{metaDescription},
+			short_description = #{shortDescription},
+			sort = #{sort},
+			is_audit = #{isAudit},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="ShopCategory">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_category a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_category SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateParentIds">
+		UPDATE shop_category SET
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="ShopCategory">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_category a
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id  = #{parent.id}
+			</if>
+			<if test="appFeaturedHome != null and appFeaturedHome != ''">
+				AND a.app_featured_home  = #{appFeaturedHome}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findByParentId" resultType="ShopCategory">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_category a
+		<include refid="joins"/>
+		<where>
+			a.del_flag = #{delFlag}
+			<if test="parent.id != null and parent.id != ''">
+				AND a.parent_id  = #{parent.id}
+			</if>
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+
+    <select id="findByParentIdsLike" resultType="ShopCategory">
+        SELECT
+        <include refid="columns"/>
+        FROM shop_category a
+        <where>
+            a.del_flag = #{delFlag}
+            AND a.parent_id LIKE
+            <if test="dbName == 'mysql'">CONCAT('%', #{id}, '%')</if>
+            <if test="dbName == 'oracle'">'%'||#{id}||'%'</if>
+        </where>
+        order by a.sort
+    </select>
+
+    <select id="getFirstSortCategory" resultType="ShopCategory">
+        SELECT
+        <include refid="columns"/>
+        FROM shop_category a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        ORDER BY a.sort ASC
+        Limit 1
+    </select>
+</mapper>

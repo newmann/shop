@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwc.shop.modules.shop.dao.CouponUserDao">
+    
+	<sql id="columns">
+		a.id,
+		a.user_id AS "user.id",
+		a.has_used AS "hasUsed",
+		a.coupon_id AS "couponId",
+		a.name,
+		a.desc,
+		a.price,
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.type,
+		a.type_desc AS "typeDesc",
+		a.duration_day AS "durationDay",
+		a.duration_day_desc AS "durationDayDesc",
+		a.used_type AS "usedType",
+		a.used_type_desc AS "usedTypeDesc",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO shop_coupon_user(
+			`id`,
+            `user_id`,
+            `has_used`,
+            `coupon_id`,
+            `name`,
+            `desc`,
+            `price`,
+            `start_date`,
+            `end_date`,
+            `type`,
+            `type_desc`,
+            `duration_day`,
+            `duration_day_desc`,
+            `used_type`,
+            `used_type_desc`,
+            `create_by`,
+            `create_date`,
+            `update_by`,
+            `update_date`,
+            `del_flag`)
+		VALUES (
+			#{id},
+            #{user.id},
+            #{hasUsed},
+            #{couponId},
+            #{name},
+            #{desc},
+            #{price},
+            #{startDate},
+            #{endDate},
+            #{type},
+            #{typeDesc},
+            #{durationDay},
+            #{durationDayDesc},
+            #{usedType},
+            #{usedTypeDesc},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{delFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_coupon_user SET
+		    has_used = #{hasUsed},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="CouponUser">
+		SELECT
+			<include refid="columns"/>
+		FROM shop_coupon_user a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="delete">
+		UPDATE shop_coupon_user SET
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findList" resultType="CouponUser">
+		SELECT 
+			<include refid="columns"/>
+		FROM shop_coupon_user a
+		<where>
+			a.del_flag = #{delFlag}
+            <if test="user.id != null and user.id != ''">
+                AND a.user_id = #{user.id}
+            </if>
+            <if test="couponId != null and couponId != ''">
+                AND a.coupon_id = #{couponId}
+            </if>
+		</where>
+		<choose>
+			<when test="page != null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.has_used DESC, a.end_date ASC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="hasSentId1ForRegister" resultType="map">
+        SELECT count(1) count
+        FROM shop_coupon_user a
+        <where>
+            a.del_flag = #{delFlag}
+            AND a.coupon_id = #{couponId}
+            AND a.user_id = #{user.id}
+        </where>
+    </select>
+
+	<select id="countUsefulCoupon" resultType="map">
+		SELECT
+            count(1) AS count
+		FROM shop_coupon_user a
+		<where>
+            a.user_id = #{user.id}
+			AND a.has_used = #{hasUsed}
+            AND a.del_flag = #{DEL_FLAG_NORMAL}
+            AND a.end_date &gt; #{endDate}
+		</where>
+	</select>
+
+    <select id="findUsefulCoupon" resultType="CouponUser">
+        SELECT
+        <include refid="columns"/>
+        FROM shop_coupon_user a
+        <where>
+            a.user_id = #{user.id}
+            AND a.has_used = #{hasUsed}
+            AND a.del_flag = #{DEL_FLAG_NORMAL}
+            AND a.end_date &gt; #{endDate}
+        </where>
+        ORDER BY a.has_used ASC, a.end_date ASC
+    </select>
+
+    <select id="findUnUsefulCoupon" resultType="CouponUser">
+        SELECT
+        <include refid="columns"/>
+        FROM shop_coupon_user a
+        <where>
+            a.user_id = #{user.id}
+            AND a.del_flag = #{DEL_FLAG_NORMAL}
+            AND ((a.end_date &lt;= #{endDate}) OR (a.end_date &gt; #{endDate} AND a.has_used = #{hasUsed}))
+        </where>
+        ORDER BY a.has_used DESC, a.end_date DESC
+        LIMIT 30
+    </select>
+</mapper>
