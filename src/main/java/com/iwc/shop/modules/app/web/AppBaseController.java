@@ -71,7 +71,7 @@ public abstract class AppBaseController {
     /**
      * APP授权码
      */
-    protected final String appAuthToken = "tony-d8exd2ae8_0a218t3c7a3a_f9g4af7wd9bb-ygcr";
+    protected final String appAuthToken = "newmamm-d8exd2ae8_0a218t3c7a3a_f9g4af7wd9bb-byl";
 
 	/**
 	 * 管理基础路径
