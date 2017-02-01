@@ -32,8 +32,8 @@
 				</a>
 			</li>
 			<li class="user-info">
-				<a href="javascript:void(0);" class="login">登录</a>
-				<a href="javascript:void(0);" class="signup">注册</a>
+				<a href="${ctxFront}/login" class="login">登录</a>
+				<a href="${ctxFront}/user/register" class="signup">注册</a>
 			</li>
 		</ul>
 		<ul class="nav-right">

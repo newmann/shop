@@ -35,7 +35,7 @@ import java.util.Map;
  * @version 2013-5-31
  */
 @Controller
-public class LoginController extends BaseController {
+public class ShopLoginController extends BaseController {
 	
 	@Autowired
 	private SessionDAO sessionDAO;

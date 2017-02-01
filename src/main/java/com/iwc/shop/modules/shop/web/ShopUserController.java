@@ -28,6 +28,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -45,7 +46,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/shop/user")
-public class UserController extends BaseController {
+public class ShopUserController extends BaseController {
     private static final String VIEW_PATH = "modules/shop/user/";
 
 	@Autowired
@@ -259,6 +260,82 @@ public class UserController extends BaseController {
 
         return renderString(response, result, message, data);
 	}
+    /**
+     * 注册 - 一次性提交手机号码、密码、验证码
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registerStep3Post(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        boolean result;
+        String message;
+        Map<String, Object> data = Maps.newHashMap();
+        String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
+        String password = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_PASSWORD_PARAM);
+        String code = request.getParameter("code");
+
+        if (!ValidateUtils.isMobile(username) || !ValidateUtils.isPassword(password)) {
+            result = false;
+            message = "提交的手机号码或密码不符合规则";
+            return renderString(response, result, message, data);
+        }
+
+        User u = userService.getByLoginName2(username);
+        if (u != null && StringUtils.isNotBlank(u.getId())) {
+            result = false;
+            message = "电话号码已存在";
+            return renderString(response, result, message, data);
+        }
+
+        //比较验证码
+        if (smsService.checkRegisterCode(username, code)) {
+            //保存用户
+            User user = new User();
+            user.setLoginName(username);
+            user.setPassword(SystemService.entryptPassword(password));
+            user.setMobile(username);
+            user.setRemarks("前台用户");
+            user.setRegisterFrom(User.REGISTER_FROM_WEB);
+            userService.saveFrontendUser(user);
+
+            //用户自动登录
+
+            User loginUser = userService.getByLoginName2(username);
+            //给新注册用户发送优惠券
+//            if (!STOP_COUPON_BUY_ONE_SEND_ONE) {
+//                couponUserService.send4NewUser(loginUser.getId());
+//            }
+
+            //转移购物车项给用户
+            String cookieId = CookieUtils.getCookieId(request, response);
+            if (StringUtils.isNotBlank(cookieId)) {
+                List<CartItem> cartItemList = cartItemService.findByCookieId(cookieId, null);
+                if (cartItemList != null && !cartItemList.isEmpty()) {
+                    //创建用户购物车
+                    Cart cart = new Cart();
+                    cart.setUser(u);
+                    cartService.save(cart);
+                    //把产品转给该用户
+                    for (CartItem cartItem : cartItemList) {
+                        cartItem.setUserId(loginUser.getId());
+                        cartItemService.save(cartItem);
+                    }
+                }
+            }
+
+
+            Map<String, Object> oUser = loginUser.toSimpleObj();
+
+            result = true;
+            message = "恭喜, 您已经成功注册了";
+            data.put("user", oUser);
+
+        } else {
+            result = false;
+            message = "请输入正确的验证码";
+        }
+
+        return "modules/shop/user/register";
+    }
 
     /**
      * 重置密码 - 提交手机号码

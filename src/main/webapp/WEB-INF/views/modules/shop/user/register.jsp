@@ -27,7 +27,7 @@
     .forget{float:right; margin:20px 10px 0 0;}
 </style>
 <div id="main">
-    <form id="user-register-form" action="${url}/app/user/login-post.html" method="post">
+    <form id="user-register-form" action="${ctxFront}/user/login-post.html" method="post">
         <div>
             <label for="username">手机号</label>
             <input type="text" id="username" name="username" class="input-block-level" value="${username}">
