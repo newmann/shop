@@ -19,11 +19,11 @@
 		<div class="home-category-list clearfix">
 			<c:forEach items="${firstCategoryList}" var="category">
 				<div class="item">
-					<a class="" href="<c:url value='/product/list/${category.id}.html'/>">
+					<a class="" href="<c:url value='/product/list/${category.id}.jsp'/>">
 						<img width="314px" height="200px" src="<c:url value='${category.image}'/>" alt="${category.name}"/>
 					</a>
 					<h3 class="title">
-						<a title="${category.name}" href="<c:url value='/product/list/${category.id}.html'/>">
+						<a title="${category.name}" href="<c:url value='/product/list/${category.id}.jsp'/>">
 							<span>${category.name}</span>
 						</a>
 					</h3>
@@ -41,8 +41,8 @@
 			</div>
 			<c:forEach items="${featuredHomeDayProductList}" var="product">
 				<div class="content">
-					<a target="_blank" href="<c:url value='/product/${product.id}.html'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
-					<div><a target="_blank" href="<c:url value='/product/${product.id}.html'/>">${product.name}</a></div>
+					<a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
+					<div><a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>">${product.name}</a></div>
 					<div class="price-box">
 						<c:choose>
 							<c:when test="${not empty product.featuredPrice}">
@@ -64,8 +64,8 @@
 			</div>
 			<c:forEach items="${featuredHomeDayProductList}" var="product">
 				<div class="content">
-					<a target="_blank" href="<c:url value='/product/${product.id}.html'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
-					<div><a target="_blank" href="<c:url value='/product/${product.id}.html'/>">${product.name}</a></div>
+					<a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
+					<div><a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>">${product.name}</a></div>
 					<div class="price-box">
 						<c:choose>
 							<c:when test="${not empty product.featuredPrice}">

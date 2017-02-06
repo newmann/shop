@@ -50,7 +50,7 @@ public class IndexController extends BaseController {
         model.addAttribute("firstCategoryList", firstCategoryList);
 		model.addAttribute("featuredHomeDayProductList", featuredHomeDayProductList);
         model.addAttribute("featuredHomeSpecialProductList", featuredHomeSpecialProductList);
-		return VIEW_PATH + "index";
+		return VIEW_PATH + "index.jsp";
 	}
 	
 }

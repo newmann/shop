@@ -65,11 +65,39 @@
         <property name="ignoreAcceptHeader" value="true"/>
         <property name="favorPathExtension" value="true"/>
 	</bean>
-	
+	<!-- 定义视图解析 -->
+	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+		<property name="prefix" value="${web.view.prefix}"/>
+		<!--<property name="suffix" value="${web.viewThymeleaf.suffix}"/>-->
+		<!-- HTML is the default value, added here for the sake of clarity.          -->
+		<property name="templateMode" value="HTML" />
+		<!-- Template cache is true by default. Set to false if you want             -->
+		<!-- templates to be automatically updated when modified.                    -->
+		<property name="cacheable" value="false"/>
+		<property name="characterEncoding" value="utf-8"/>
+	</bean>
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+		<!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
+		<!-- execution in most scenarios, but might be incompatible with specific    -->
+		<!-- cases when expressions in one template are reused across different data -->
+		<!-- ypes, so this flag is "false" by default for safer backwards            -->
+		<!-- compatibility.                                                          -->
+		<property name="enableSpringELCompiler" value="true" />
+	</bean>
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<!-- NOTE 'order' and 'viewNames' are optional -->
+		<property name="order" value="1" />
+		<property name="viewNames" value="*.html,*.xhtml" />
+	</bean>
 	<!-- 定义视图文件解析 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="${web.view.prefix}"/>
-		<property name="suffix" value="${web.view.suffix}"/>
+		<!--<property name="suffix" value="${web.view.suffix}"/>-->
+		<property name="order" value="2" />
+		<property name="viewNames" value="*.jsp" />
 	</bean>
 	
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
