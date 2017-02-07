@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_head(title,description,keywords,links)">
+	<title th:replace="${title}">Web Shop</title>
+	<meta name="description"  th:content="${description}" content="Web Shop" />
+	<meta name="keywords" th:content="${keywords}" content="月光茶人" />
+	<!-- Common styles and scripts	-->
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-store" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="author" content="beiyelin"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=6,IE=7,IE=9,IE=10" />
+	<link th:href="@{/static/css/shop.css}" type="text/css" rel="stylesheet" />
+	<script th:src="@{/static/jquery/jquery-1.9.1.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/jquery.icommon/jquery.icommon.js}" type="text/javascript"></script>
+	<script th:src="@{/static/jquery.cookie/jquery.cookie.js}" type="text/javascript"></script>
+	<!--/* Per-page placeholder for additional links */-->
+	<th:block th:replace="${links}" />
+</head>
+<body class="page-body" >
+<!-- header -->
+<div th:fragment="header">
+	<div class="header">
+		<div class="top-nav-w"><div class="top-nav">
+			<ul class="nav-left">
+				<li class="favor">
+					<a href="javascript:void(0);" rel="nofollow">
+						<i class="F-glob-star-border"></i>
+						收藏月光茶人
+					</a>
+				</li>
+				<li class="user-info">
+					<a href="/login.html" th:href="@{/login}" class="login">登录</a>
+					<a href="/user/register.html" th:href="@{/user/register}" class="signup">注册</a>
+				</li>
+			</ul>
+			<ul class="nav-right">default.jsp
+				<li><a target="_blank" href="/fapp.html" th:href="@{/fapp}">手机客户端</a></li>
+				<%-- <li class="user-order"><a target="" href="/orders.html" th:href="@{/orders}">我的订单</a></li> --%>
+				<li class="mini-cart">
+					<a href="/cart.html" th:href="@{/cart}" class="dropdown-toggle" rel="nofollow">
+						<i class="icon icon-cart"></i>
+						<span>我的购物车<em data-newindex="true" class="badge"><strong class="cart-count">${cartItemsCount}</strong>件</em></span>
+						<i class="tri tri--dropdown"></i>
+						<i class="vertical-bar"></i>
+					</a>
+				</li>
+			</ul>
+		</div></div>
+
+		<%--
+		<div class="top-slider">
+			<div class="banner"><img width="1200" height="58" alt="" src="/static/images/banner1.jpg"></div>
+		</div>
+		 --%>
+
+		<div class="brand-bar-w"><div class="brand-bar">
+			<a class="logo" href="/"><img height="90" alt="月光茶人" src="/static/images/logo.jpg"></a>
+			<%-- <a class="logo-gift"><img src="/static/images/logo-gift.gif"/></a> --%>
+			<div class="search-bar">
+				<div class="search-box">
+					<form action="#" method="get">
+						<div class="s-form">
+							<input class="s-text" type="text">
+							<input class="s-button" type="submit" value="搜索">
+						</div>
+					</form>
+				</div>
+				<div class="hotwords">
+					<strong>热门搜索：</strong>
+					<a target="_blank" href="#">手抓饼</a>
+					<a target="_blank" href="#">榴莲酥</a>
+					<a target="_blank" href="#">月光招牌奶茶</a>
+					<a target="_blank" href="#">每天优惠</a>
+					<a target="_blank" href="#">微信红包</a>
+				</div>
+			</div>
+			<a class="promise"><img src="/static/images/demo_promise.png"/></a>
+		</div></div>
+	</div>
+</div>
+<!-- header -->
+
+<!-- main -->
+<div class="main-w clearfix">
+	<div class="main clearfix">
+
+
+	</div>
+</div>
+<!-- /main -->
+
+<!-- footer -->
+<div th:fragment="footer">
+	<div class="footer-w"><div class="footer">
+		<div class="links">
+			<a rel="nofollow" target="_blank" href="">关于我们</a>|
+			<a rel="nofollow" target="_blank" href="">联系我们</a>|
+			<a rel="nofollow" target="_blank" href="">商家加盟</a>|
+			<a rel="nofollow" target="_blank" href="">营销中心</a>|
+			<a rel="nofollow" target="_blank" href="">营销中心</a>|
+			<a rel="nofollow" target="_blank" href="">使用帮助</a>|
+			<a target="_blank" href="">友情链接</a>
+		</div>
+		<div class="copyright">xxx备案编号11010501123456&nbsp;&nbsp;|&nbsp;&nbsp;京ICP证xxx号&nbsp;&nbsp;|&nbsp;&nbsp;</div>
+	</div></div>
+</div>
+<!-- /footer -->
+</body>
+</html>

@@ -27,7 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="LocalJDK1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.3.5.RELEASE" level="project" />
@@ -49,6 +49,24 @@
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.2.8" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.0.11" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.alibaba:jconsole:1.8.0">
+        <CLASSES>
+          <root url="jar://C:/dev/Java/jdk1.8.0_111/lib/jconsole.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: com.alibaba:tools:1.8.0">
+        <CLASSES>
+          <root url="jar://C:/dev/Java/jdk1.8.0_111/lib/tools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="RUNTIME" name="Maven: mysql:mysql-connector-java:5.1.30" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.sourceforge.jtds:jtds:1.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.5.RELEASE" level="project" />

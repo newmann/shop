@@ -36,7 +36,7 @@
 				<a href="${ctxFront}/user/register" class="signup">注册</a>
 			</li>
 		</ul>
-		<ul class="nav-right">
+		<ul class="nav-right">default.jsp
 			<li><a target="_blank" href="/fapp.html">手机客户端</a></li>
 			<%-- <li class="user-order"><a target="" href="/orders/">我的订单</a></li> --%>
 			<li class="mini-cart">

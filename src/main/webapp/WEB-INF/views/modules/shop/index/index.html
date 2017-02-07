@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modules/shop/layouts/fragment :: common_head(~{::title},~{::description},~{::keywords},~{::link})">
+	<title>首页</title>
+	<meta name="description" content="月光茶人" />
+	<meta name="keywords" content="月光茶人" />
+</head>
+<body  class="page-body" >
+
+<div th:replace="modules/shop/layouts/fragment :: header"></div>
+
+	<!-- content -->
+	<div id="" class="main-content clearfix">
+		<div class="home-category-list clearfix">
+			<div class="item" th:each="category : ${firstCategoryList}">
+				<a class="" th:href="@{/product/list/${category.id}.html}'/>">
+					<img width="314px" height="200px" th:src="@{${category.image}}" alt="${category.name}"/>
+				</a>
+				<h3 class="title">
+					<a title="${category.name}" th:href="@{/product/list/${category.id}.html}">
+						<span>${category.name}</span>
+					</a>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<!-- /content -->
+
+	<!-- right -->
+	<div class="main-right clearfix">
+		<div class="side-block">
+			<div class="title">
+				<h2><i></i>每日优惠</h2>
+			</div>
+			<c:forEach items="${featuredHomeDayProductList}" var="product">
+				<div class="content" th:each="product : ${featuredHomeDayProductList}">
+					<a target="_blank" th:href="@{/product/${product.id}.html}'/>" rel="nofollow"><img width="206px" height="206px" th:src="@{${product.image}}'/>" alt="${product.name}"/></a>
+					<div><a target="_blank" th:href="@{/product/${product.id}.html}">${product.name}</a></div>
+					<div class="price-box">
+						<div th:if="isempty">
+							<span class="price">￥${product.featuredPrice}</span>
+							<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
+
+						</div>
+						<c:choose>
+							<c:when test="${not empty product.featuredPrice}">
+								<span class="price">￥${product.featuredPrice}</span>
+								<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
+							</c:when>
+							<c:otherwise>
+								<span class="price">￥${product.price}</span>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		<br />
+		<div class="side-block">
+			<div class="title">
+				<h2><i></i>每日特卖</h2>
+			</div>
+			<c:forEach items="${featuredHomeDayProductList}" var="product">
+				<div class="content">
+					<a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
+					<div><a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>">${product.name}</a></div>
+					<div class="price-box">
+						<c:choose>
+							<c:when test="${not empty product.featuredPrice}">
+								<span class="price">￥${product.featuredPrice}</span>
+								<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
+							</c:when>
+							<c:otherwise>
+								<span class="price">￥${product.price}</span>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<!-- /right -->
+
+<div th:replace="modules/shop/layouts/fragment :: footer"></div>
+</body>
+</html>
