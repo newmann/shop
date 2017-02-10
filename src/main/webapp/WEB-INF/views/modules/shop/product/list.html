@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modules/shop/layouts/fragment.html :: common_head(~{::title},~{::meta},~{})">
+  <title>产品列表</title>
+  <!--<description>月光茶人</description>-->
+  <!--<keywords>月光茶人</keywords>-->
+  <meta name="description" content="首页" />
+  <meta name="keywords" content="首页 关键字 测试" />
+</head>
+<body  class="page-body" >
+<div th:replace="modules/shop/layouts/fragment.html :: header"></div>
+<!-- left -->
+<div class="main-left">
+  <ul class="item-list">
+      <li th:each="category : ${firstCategoryList}" th:class="${category.id} == ${categoryId} ? 'active': _">
+        <i></i>
+        <a th:href="@{|/product/list/${category.id}.html|}" th:text="${category.name}">类别名称</a>
+      </li>
+  </ul>
+</div>
+
+<!-- content -->
+<div class="main-content clearfix">
+  <div class="product-list clearfix">
+      <div class="item" th:each="product : ${productList}">
+        <a th:href="@{|/product/${product.id}.html|}" th:title="${product.name}">
+          <img width="250px" height="200px" th:alt="${product.name}" th:src="@{${product.image}}"/>
+        </a>
+        <h3 class="title">
+          <a th:title="${product.name}" th:href="@{|/product/list/${product.id}.html|}">
+            <span th:text="${product.name}">产品名称</span>
+          </a>
+        </h3>
+        <div class="price-box">
+          <div th:if="${product.featuredPrice} != null">
+            <span class="price" th:text="|￥${product.featuredPrice}|">单价</span>
+            <span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>
+          </div>
+          <div th:unless="${product.featuredPrice} == null">
+            <span class="price" th:text="|￥${product.price}|">￥原价</span>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div th:replace="modules/shop/layouts/fragment.html :: footer"></div>
+</body>
+</html>

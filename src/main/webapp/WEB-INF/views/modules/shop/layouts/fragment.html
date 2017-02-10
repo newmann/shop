@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="common_head(title,description,keywords,links)">
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_head(title,metas,links)">
 	<title th:replace="${title}">Web Shop</title>
-	<meta name="description"  th:content="${description}" content="Web Shop" />
-	<meta name="keywords" th:content="${keywords}" content="月光茶人" />
+	<!--<meta name="description"  th:content="${description}" content="Web Shop" />-->
+	<!--<meta name="keywords" th:content="${keywords}" content="月光茶人" />-->
+	<th:block th:replace="${metas}" />
 	<!-- Common styles and scripts	-->
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-store" />

@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="modules/shop/layouts/fragment :: common_head(~{::title},~{::description},~{::keywords},~{::link})">
+<head th:replace="modules/shop/layouts/fragment.html :: common_head(~{::title},~{::meta},~{})">
 	<title>首页</title>
-	<meta name="description" content="月光茶人" />
-	<meta name="keywords" content="月光茶人" />
+    <!--<description>月光茶人</description>-->
+    <!--<keywords>月光茶人</keywords>-->
+	<meta name="description" content="首页" />
+	<meta name="keywords" content="首页 关键字 测试" />
 </head>
 <body  class="page-body" >
 
-<div th:replace="modules/shop/layouts/fragment :: header"></div>
+<div th:replace="modules/shop/layouts/fragment.html :: header"></div>
 
 	<!-- content -->
 	<div id="" class="main-content clearfix">
 		<div class="home-category-list clearfix">
 			<div class="item" th:each="category : ${firstCategoryList}">
-				<a class="" th:href="@{/product/list/${category.id}.html}'/>">
-					<img width="314px" height="200px" th:src="@{${category.image}}" alt="${category.name}"/>
+				<a class="" th:href="@{|/product/list/${category.id}.html|}">
+					<img width="314px" height="200px" th:src="@{|${category.image}|}" th:alt="${category.name}"/>
 				</a>
 				<h3 class="title">
-					<a title="${category.name}" th:href="@{/product/list/${category.id}.html}">
-						<span>${category.name}</span>
+					<a th:title="${category.name}" th:href="@{|/product/list/${category.id}.html|}">
+						<span th:text="${category.name}">类别名称</span>
 					</a>
 				</h3>
 			</div>
@@ -32,55 +34,54 @@
 			<div class="title">
 				<h2><i></i>每日优惠</h2>
 			</div>
-			<c:forEach items="${featuredHomeDayProductList}" var="product">
+			<!--<c:forEach items="${featuredHomeDayProductList}" var="product">-->
 				<div class="content" th:each="product : ${featuredHomeDayProductList}">
-					<a target="_blank" th:href="@{/product/${product.id}.html}'/>" rel="nofollow"><img width="206px" height="206px" th:src="@{${product.image}}'/>" alt="${product.name}"/></a>
-					<div><a target="_blank" th:href="@{/product/${product.id}.html}">${product.name}</a></div>
+					<a target="_blank" th:href="@{|/product/${product.id}.html|}" rel="nofollow"><img width="206px" height="206px" th:src="@{${product.image}}'/>" alt="${product.name}"/></a>
+					<div><a target="_blank" th:href="@{|/product/${product.id}.html|}" th:text="${product.name}">产品名称</a></div>
 					<div class="price-box">
-						<div th:if="isempty">
-							<span class="price">￥${product.featuredPrice}</span>
-							<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
-
+						<div th:if="${product.featuredPrice} != null">
+							<span class="price" th:text="|￥${product.featuredPrice}|">单价</span>
+							<span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>
 						</div>
-						<c:choose>
-							<c:when test="${not empty product.featuredPrice}">
-								<span class="price">￥${product.featuredPrice}</span>
-								<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
-							</c:when>
-							<c:otherwise>
-								<span class="price">￥${product.price}</span>
-							</c:otherwise>
-						</c:choose>
+						<div th:unless="${product.featuredPrice} == null">
+							<span class="price" th:text="|￥${product.price}|">￥原价</span>
+						</div>
+
+						<!--<c:choose>-->
+							<!--<c:when test="${not empty product.featuredPrice}">-->
+								<!--<span class="price">￥${product.featuredPrice}</span>-->
+								<!--<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>-->
+							<!--</c:when>-->
+							<!--<c:otherwise>-->
+								<!--<span class="price">￥${product.price}</span>-->
+							<!--</c:otherwise>-->
+						<!--</c:choose>-->
 					</div>
 				</div>
-			</c:forEach>
+			<!--</c:forEach>-->
 		</div>
 		<br />
 		<div class="side-block">
 			<div class="title">
 				<h2><i></i>每日特卖</h2>
 			</div>
-			<c:forEach items="${featuredHomeDayProductList}" var="product">
-				<div class="content">
-					<a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>" rel="nofollow"><img width="206px" height="206px" src="<c:url value='${product.image}'/>" alt="${product.name}"/></a>
-					<div><a target="_blank" href="<c:url value='/product/${product.id}.jsp'/>">${product.name}</a></div>
+				<div class="content" th:each="product : ${featuredHomeDayProductList}">
+					<a target="_blank" th:href="@{|/product/${product.id}.html|}" rel="nofollow"><img width="206px" height="206px" th:src="@{${product.image}}" th:alt="${product.name}"/></a>
+					<div><a target="_blank" th:href="@{|/product/${product.id}.html|}" th:text="${product.name}">产品名称</a></div>
 					<div class="price-box">
-						<c:choose>
-							<c:when test="${not empty product.featuredPrice}">
-								<span class="price">￥${product.featuredPrice}</span>
-								<span class="original-word">原价&nbsp;</span><span class="original-price">￥${product.price}</span>
-							</c:when>
-							<c:otherwise>
-								<span class="price">￥${product.price}</span>
-							</c:otherwise>
-						</c:choose>
+						<div th:if="${product.featuredPrice} != null">
+							<span class="price" th:text="|￥${product.featuredPrice}|">单价</span>
+							<span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>
+						</div>
+						<div th:unless="${product.featuredPrice} == null">
+							<span class="price" th:text="|￥${product.price}|">￥原价</span>
+						</div>
 					</div>
 				</div>
-			</c:forEach>
 		</div>
 	</div>
 	<!-- /right -->
 
-<div th:replace="modules/shop/layouts/fragment :: footer"></div>
+<div th:replace="modules/shop/layouts/fragment.html :: footer"></div>
 </body>
 </html>
