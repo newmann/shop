@@ -78,7 +78,7 @@ public class OrderController extends BaseController {
 
 		m.put("cartItemsCount", cartItemsCount);
 		m.put("orderItemList", orderItemList);
-		return "modules/shop/order/view";
+		return "modules/shop/order/view.html";
 	}
 
 	/**
@@ -180,6 +180,6 @@ public class OrderController extends BaseController {
 
 		m.put("cartItemsCount", cartItemsCount);
 		m.put("cartItemList", cartItemList);
-		return "modules/shop/order/success";
+		return "modules/shop/order/success.html";
 	}
 }

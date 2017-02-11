@@ -28,7 +28,7 @@ public class FappController extends BaseController {
 
 	@RequestMapping
 	public String index() {
-		return VIEW_PATH + "index";
+		return VIEW_PATH + "index.html";
 	}
 	
 }

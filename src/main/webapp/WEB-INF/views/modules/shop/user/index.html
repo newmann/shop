@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modules/shop/layouts/fragment.html :: common_head(~{::title},~{::meta},~{})">
+    <title>首页</title>
+    <!--<description>月光茶人</description>-->
+    <!--<keywords>月光茶人</keywords>-->
+    <meta name="description" content="首页" />
+    <meta name="keywords" content="首页 关键字 测试" />
+</head>
+<body  class="page-body" >
+
+<div th:replace="modules/shop/layouts/fragment.html :: header"></div>
+
+<div class="main-w clearfix">
+    <div class="main clearfix">
+
+
+
+            <!-- content -->
+        <div id="" class="main-content clearfix">
+            <div class="head-img">
+                <a onclick="openUserInfo(this)" th:data-url="@{/shop/user/info.html}" tapmode=""><span class="my-img"></span></a>
+                <p class="my-name" th:text="$user.loginName">${fns:getUser().loginName}</p>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <!-- right -->
+        <div class="main-right clearfix">
+            <div class="side-block">
+                <div class="title">
+                    <h2><i></i>个人中心</h2>
+                </div>
+
+                <ul class="menu-list">
+                    <li>
+                        <a tapmode="active" onclick="openOrderList(this)" th:data-url="@{/shop/order/list.html}">
+                            <img alt="" th:src="@{/static/app/images/icon-order.png}">
+                            <p>我的订单</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a tapmode="active" onclick="openCollectList(this)" th:data-url="@{/shop/collect/list.html}">
+                            <img alt="" th:src="@{/static/app/images/icon-collect.png}">
+                            <p>我的收藏</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a tapmode="active" onclick="openHistoryList(this)" th:data-url="@{/shop/history/list.html}">
+                            <img alt="" th:src="@{/static/app/images/icon-history.png}">
+                            <p>浏览记录</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a tapmode="active" onclick="openInfoSupport(this)" th:data-url="@{/shop/info/support.html}">
+                            <img alt="" th:src="@{/static/app/images/icon-app.png}">
+                            <p>技术支持</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <div class="side-block">
+                <div class="title">
+                    <h2><i></i>每日特卖</h2>
+                </div>
+            </div>
+        </div>
+        <!-- /right -->
+    </div>
+</div>
+<div th:replace="modules/shop/layouts/fragment.html :: footer"></div>
+
+</body>
+</html>
+

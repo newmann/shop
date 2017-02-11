@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modules/shop/layouts/fragment.html :: common_head(~{::title},~{::meta},~{})">
+	<title>查看订单</title>
+	<!--<description>月光茶人</description>-->
+	<!--<keywords>月光茶人</keywords>-->
+	<meta name="description" content="首页" />
+	<meta name="keywords" content="首页 关键字 测试" />
+</head>
+<body  class="page-body" >
+
+<div th:replace="modules/shop/layouts/fragment.html :: header"></div>
+
+<div class="main-w clearfix">
+	<div class="main clearfix">
+		<div class="main-content clearfix">
+			<div id="nologin-tip">
+				<i></i>您还没有登录！登录查看我的积分 <a href="#none" class="btn-red-1">立即登录</a>
+			</div>
+			<div class="preorder" id="preorder">
+				<h1>查看订单详情</h1>
+
+				<div class="step step-complete" id="step-1">
+					<div class="title">
+						<strong>收货人信息</strong>
+					</div>
+					<div class="content">
+						<div id="address-t-title">
+							<div id="address-t-title-1" th:text="|${order.addressFullname}&nbsp;&nbsp;&nbsp;${order.addressTelephone}|">${order.addressFullname}&nbsp;&nbsp;&nbsp;${order.addressTelephone}</div>
+							<div id="address-t-title-2" th:text="|${order.areaPathNames}&nbsp;&nbsp;${order.addressDetail}|">${fn:replace(order.areaPathNames, "中国/", "")}&nbsp;&nbsp;${order.addressDetail}</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="step" id="step-2">
+					<div class="title">
+						<strong>支付及配送方式</strong>
+					</div>
+					<div class="content">货到付款，立即送餐。</div>
+				</div>
+
+				<div class="step" id="step-3">
+					<div class="title">
+						<strong>商品清单</strong>
+					</div>
+					<div class="content">
+						<div class="preorder-main t-div">
+							<div class="t-header">
+								<div class="t-column t-name">商品</div>
+								<div class="t-column t-price">单价(元)</div>
+								<div class="t-column t-qty">数量</div>
+								<div class="t-column t-subtotal">小计(元)</div>
+							</div>
+
+							<div class="t-body clearfix">
+								<div class="t-row clearfix" th:each="item,status :${orderItemList}">
+									<div class="t-column t-name" th:text="${item.name}">${item.name}</div>
+									<div class="t-column t-price"><strong th:text="${item.price}">${item.price}</strong></div>
+									<div class="t-column t-qty"><div th:text="${item.count}">${item.count}</div></div>
+									<div class="t-column t-subtotal"><strong th:text="${item.price} * ${item.count}">${item.price * item.count}</strong></div>
+								</div>
+							</div>
+
+							<div class="t-footer clearfix">
+								<div class="t-column t-total-count">共<em th:text="${order.totalCount}">${order.totalCount}</em>件商品：</div>
+								<div class="t-column t-total-price"><em th:text="|¥${order.totalPrice}|">¥${order.totalPrice}</em></div>
+								<div class="t-column t-submit"><a id="preorder-form-submit" class="btn-submit" href="/">继续购物</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:replace="modules/shop/layouts/fragment.html :: footer"></div>
+</body>
+</html>

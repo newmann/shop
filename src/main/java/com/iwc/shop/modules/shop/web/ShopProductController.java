@@ -47,7 +47,7 @@ public class ShopProductController extends BaseController {
 		ShopProduct product = ShopProductUtils.getProduct(id);
 
 		model.addAttribute("product", product);
-		return "modules/shop/product/view";
+		return "modules/shop/product/view.html";
 	}
 
     /**
@@ -61,7 +61,7 @@ public class ShopProductController extends BaseController {
 		model.addAttribute("categoryId", categoryId);
         model.addAttribute("firstCategoryList", firstCategoryList);
         model.addAttribute("productList", productList);
-        return "modules/shop/product/list";
+        return "modules/shop/product/list.html";
     }
 	
 }

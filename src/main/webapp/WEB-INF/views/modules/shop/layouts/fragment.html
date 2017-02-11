@@ -32,17 +32,17 @@
 					</a>
 				</li>
 				<li class="user-info">
-					<a href="/login.html" th:href="@{/login}" class="login">登录</a>
-					<a href="/user/register.html" th:href="@{/user/register}" class="signup">注册</a>
+					<a href="/login.html" th:href="@{/login.html}" class="login">登录</a>
+					<a href="/user/register.html" th:href="@{/user/register.html}" class="signup">注册</a>
 				</li>
 			</ul>
-			<ul class="nav-right">default.jsp
-				<li><a target="_blank" href="/fapp.html" th:href="@{/fapp}">手机客户端</a></li>
-				<%-- <li class="user-order"><a target="" href="/orders.html" th:href="@{/orders}">我的订单</a></li> --%>
+			<ul class="nav-right">
+				<li><a target="_blank" href="/fapp.html" th:href="@{/fapp.html}">手机客户端</a></li>
+				<!--<%&#45;&#45; <li class="user-order"><a target="" href="/orders.html" th:href="@{/orders.html}">我的订单</a></li> &#45;&#45;%>-->
 				<li class="mini-cart">
-					<a href="/cart.html" th:href="@{/cart}" class="dropdown-toggle" rel="nofollow">
+					<a href="/cart.html" th:href="@{/cart.html}" class="dropdown-toggle" rel="nofollow">
 						<i class="icon icon-cart"></i>
-						<span>我的购物车<em data-newindex="true" class="badge"><strong class="cart-count">${cartItemsCount}</strong>件</em></span>
+						<span>我的购物车&nbsp;&nbsp;|&nbsp;&nbsp;<em data-newindex="true" class="badge"><strong class="cart-count" th:text="${cartItemsCount} ?: _">0</strong>&nbsp;&nbsp;件</em></span>
 						<i class="tri tri--dropdown"></i>
 						<i class="vertical-bar"></i>
 					</a>
@@ -50,15 +50,13 @@
 			</ul>
 		</div></div>
 
-		<%--
 		<div class="top-slider">
 			<div class="banner"><img width="1200" height="58" alt="" src="/static/images/banner1.jpg"></div>
 		</div>
-		 --%>
 
 		<div class="brand-bar-w"><div class="brand-bar">
 			<a class="logo" href="/"><img height="90" alt="月光茶人" src="/static/images/logo.jpg"></a>
-			<%-- <a class="logo-gift"><img src="/static/images/logo-gift.gif"/></a> --%>
+			<!--<%&#45;&#45; <a class="logo-gift"><img src="/static/images/logo-gift.gif"/></a> &#45;&#45;%>-->
 			<div class="search-bar">
 				<div class="search-box">
 					<form action="#" method="get">

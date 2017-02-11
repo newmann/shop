@@ -86,7 +86,7 @@ public class PreorderController extends BaseController {
 		model.addAttribute("area", area);
 		model.addAttribute("areaSelector", areaSelector);
 		model.addAttribute("address", address);
-		return "modules/shop/preorder/view";
+		return "modules/shop/preorder/view.html";
 	}
 
 	/**

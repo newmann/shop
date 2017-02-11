@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modules/shop/layouts/fragment.html :: common_head(~{::title},~{::meta},~{})">
+	<title>手机客户端</title>
+	<!--<description>月光茶人</description>-->
+	<!--<keywords>月光茶人</keywords>-->
+	<meta name="description" content="首页" />
+	<meta name="keywords" content="首页 关键字 测试" />
+</head>
+<body  class="page-body" >
+
+<div th:replace="modules/shop/layouts/fragment.html :: header"></div>
+
+<div class="main-w clearfix">
+	<div class="main clearfix">
+		<h1>月光茶人客户端下载</h1>
+		<br />
+
+		<div class="nav-wrap">
+			<div class="sub-nav">
+				<div class="w">
+					<div>
+						<!--<%&#45;&#45;<a class="fore3 curr" href="/static/file/EcActivity-EcActivity.apk"><b class="b3"></b></a>&#45;&#45;%>-->
+						<a class="fore3" href="/static/file/android.apk"><b class="b3"></b></a>
+						<a class="fore1" href="javascript:;"><b class="b1"></b></a>
+						<!--<%&#45;&#45;<a class="fore2" href="ipad.html"><b class="b2"></b></a>-->
+						<a class="fore4" href="androidpad.html"><b class="b4"></b></a>
+						<a class="fore5" href="androidtv.html"><b class="b5"></b></a>
+						<a class="fore6" href="winphone.html"><b class="b6"></b></a>
+						<a class="fore7" href="win8.html"><b class="b7"></b></a>--%>
+					</div>
+				</div>
+			</div>
+			<div class="float-nav-wrap">
+				<div class="fixed-line" style="height: 30px;">
+					<div class="w">
+						<!--<%&#45;&#45;<a class="fore3 curr" href="android.html">Android phone</a>&#45;&#45;%>-->
+						<a class="fore3" href="/static/file/EcActivity-EcActivity.apk">Android phone</a>
+						<a class="fore1" href="javascript:;">iPhone</a>
+						<!--<%&#45;&#45;<a class="fore2" href="ipad.html">iPad</a>-->
+						<a class="fore4" href="androidpad.html">Android pad</a>
+						<a class="fore5" href="androidtv.html">Android TV</a>
+						<a class="fore6" href="winphone.html">Windows Phone</a>
+						<a class="fore7" href="win8.html">Windows 8</a>--%>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:replace="modules/shop/layouts/fragment.html :: footer"></div>
+</body>
+</html>

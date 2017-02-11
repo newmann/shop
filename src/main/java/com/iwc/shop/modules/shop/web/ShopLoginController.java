@@ -62,7 +62,7 @@ public class ShopLoginController extends BaseController {
 //		view += "jar:file:/D:/GitHub/shop/src/main/webapp/WEB-INF/lib/shop.jar!";
 //		view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 //		view += ".jsp";
-		return "modules/shop/user/login";
+		return "modules/shop/user/login.html";
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class ShopLoginController extends BaseController {
 		// 验证失败清空验证码
 		request.getSession().setAttribute(ValidateCodeServlet.VALIDATE_CODE, IdGen.uuid());
 		
-		return "modules/shop/user/login";
+		return "modules/shop/user/login.html";
 	}
 
 

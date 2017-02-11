@@ -53,7 +53,7 @@ public class CartController extends BaseController {
 		String cookieId = CookieUtils.getCookieId(request, response);
 		List<CartItem> cartItemList = itemService.findByCookieId(cookieId, null);
 		model.addAttribute("cartItemList", cartItemList);
-		return "modules/shop/cart/index";
+		return "modules/shop/cart/index.html";
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class CartController extends BaseController {
 		String cookieId = CookieUtils.getCookieId(request, response);
 		List<CartItem> cartItemList = itemService.findByCookieId(cookieId, null);
 		model.addAttribute("cartItemList", cartItemList);
-		return "modules/shop/cart/success";
+		return "modules/shop/cart/success.html";
 	}
 	
 }

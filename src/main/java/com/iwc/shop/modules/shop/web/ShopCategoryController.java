@@ -40,7 +40,7 @@ public class ShopCategoryController extends BaseController {
 
 		model.addAttribute("firstCategoryList", firstCategoryList);
 		model.addAttribute("featuredHomeDayProductList", featuredHomeDayProductList);
-		return VIEW_PATH + "view";
+		return VIEW_PATH + "view.html";
 	}
 	
 }

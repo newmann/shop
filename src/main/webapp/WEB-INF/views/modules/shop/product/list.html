@@ -9,38 +9,43 @@
 </head>
 <body  class="page-body" >
 <div th:replace="modules/shop/layouts/fragment.html :: header"></div>
-<!-- left -->
-<div class="main-left">
-  <ul class="item-list">
-      <li th:each="category : ${firstCategoryList}" th:class="${category.id} == ${categoryId} ? 'active': _">
-        <i></i>
-        <a th:href="@{|/product/list/${category.id}.html|}" th:text="${category.name}">类别名称</a>
-      </li>
-  </ul>
-</div>
+<div class="main-w clearfix">
+  <div id="product-list-page" class="main clearfix">
+    <!-- left -->
+    <div class="main-left">
+      <ul class="item-list">
+          <li th:each="category : ${firstCategoryList}" th:class="${category.id} == ${categoryId} ? 'active': _">
+            <i></i>
+            <a th:href="@{|/product/list/${category.id}.html|}" th:text="${category.name}">类别名称</a>
+          </li>
+      </ul>
+    </div>
 
-<!-- content -->
-<div class="main-content clearfix">
-  <div class="product-list clearfix">
-      <div class="item" th:each="product : ${productList}">
-        <a th:href="@{|/product/${product.id}.html|}" th:title="${product.name}">
-          <img width="250px" height="200px" th:alt="${product.name}" th:src="@{${product.image}}"/>
-        </a>
-        <h3 class="title">
-          <a th:title="${product.name}" th:href="@{|/product/list/${product.id}.html|}">
-            <span th:text="${product.name}">产品名称</span>
-          </a>
-        </h3>
-        <div class="price-box">
-          <div th:if="${product.featuredPrice} != null">
-            <span class="price" th:text="|￥${product.featuredPrice}|">单价</span>
-            <span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>
+    <!-- content -->
+    <div class="main-content clearfix">
+      <div class="product-list clearfix">
+          <div class="item" th:each="product : ${productList}">
+            <a th:href="@{|/product/${product.id}.html|}" th:title="${product.name}">
+              <img width="250px" height="200px" th:alt="${product.name}" th:src="@{${product.image}}"/>
+            </a>
+            <h3 class="title">
+              <a th:title="${product.name}" th:href="@{|/product/list/${product.id}.html|}">
+                <span th:text="${product.name}">产品名称</span>
+              </a>
+            </h3>
+            <div th:replace="modules/shop/fragment/product-price.html :: product-price(${product})" />
+            <!--<div class="price-box">-->
+              <!--<div th:if="${product.featuredPrice} != null">-->
+                <!--<span class="price" th:text="|￥${product.featuredPrice}|">单价</span>-->
+                <!--<span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>-->
+              <!--</div>-->
+              <!--<div th:unless="${product.featuredPrice} == null">-->
+                <!--<span class="price" th:text="|￥${product.price}|">￥原价</span>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
-          <div th:unless="${product.featuredPrice} == null">
-            <span class="price" th:text="|￥${product.price}|">￥原价</span>
-          </div>
-        </div>
       </div>
+    </div>
   </div>
 </div>
 

@@ -67,7 +67,7 @@ public class ShopUserController extends BaseController {
     @RequiresPermissions("sys:user:view")
 	@RequestMapping(value = "")
 	public String index() {
-		return VIEW_PATH + "index";
+		return VIEW_PATH + "index.html";
 	}
 
     @RequestMapping("/get-user")
@@ -334,7 +334,7 @@ public class ShopUserController extends BaseController {
             message = "请输入正确的验证码";
         }
 
-        return "modules/shop/user/register";
+        return "modules/shop/user/register.html";
     }
 
     /**

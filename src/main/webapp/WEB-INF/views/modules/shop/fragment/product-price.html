@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="product-price(product)">
+    <div class="price-box">
+        <div th:if="${product.featuredPrice} != null">
+            <span class="price" th:text="|￥${product.featuredPrice}|">单价</span>
+            <span class="original-word">原价&nbsp;</span><span class="original-price" th:text="|￥${product.price}|">￥</span>
+        </div>
+        <div th:if="${product.featuredPrice} == null">
+            <span class="price" th:text="|￥${product.price}|">￥原价</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
