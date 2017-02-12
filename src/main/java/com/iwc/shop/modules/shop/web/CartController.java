@@ -53,6 +53,14 @@ public class CartController extends BaseController {
 		String cookieId = CookieUtils.getCookieId(request, response);
 		List<CartItem> cartItemList = itemService.findByCookieId(cookieId, null);
 		model.addAttribute("cartItemList", cartItemList);
+		int totalCount = 0;
+		float totalAmount = 0 ;
+		for (CartItem item : cartItemList) {
+			totalCount = totalCount + item.getCount();
+			totalAmount = totalAmount + item.getProduct().getFeaturedPrice()*item.getCount();
+		}
+		model.addAttribute("totalCount",totalAmount);
+		model.addAttribute("totalAmount",totalAmount);
 		return "modules/shop/cart/index.html";
 	}
 
@@ -65,6 +73,15 @@ public class CartController extends BaseController {
 		String cookieId = CookieUtils.getCookieId(request, response);
 		List<CartItem> cartItemList = itemService.findByCookieId(cookieId, null);
 		model.addAttribute("cartItemList", cartItemList);
+		int totalCount = 0;
+		float totalAmount = 0 ;
+		for (CartItem item : cartItemList) {
+			totalCount = totalCount + item.getCount();
+			totalAmount = totalAmount + item.getProduct().getFeaturedPrice()*item.getCount();
+		}
+		model.addAttribute("totalCount",totalAmount);
+		model.addAttribute("totalAmount",totalAmount);
+
 		return "modules/shop/cart/success.html";
 	}
 	

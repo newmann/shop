@@ -36,10 +36,10 @@
 						</dd>
 					</dl>
 					<div class="total">
-						共<strong class="count" th:text="${#aggregates.sum(${cartItemList.item.count})}">${_totalCount}</strong>件商品<br>
-						金额总计：<strong>${_totalPrice}</strong>
+						共<strong class="count" th:text="${totalCount}">${totalCount}</strong>件商品<br>
+						金额总计：<strong th:text="${totalAmount}">${totalAmount}</strong>
 					</div>
-					<div class="btns"><a class="btn-red" href="<c:url value='/cart.html'/>">去购物车结算</a></div>
+					<div class="btns"><a class="btn-red" th:href="@{/cart.html}">去购物车结算</a></div>
 				</div>
 			</div>
 		</div>

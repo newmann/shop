@@ -57,8 +57,8 @@
                             <div class="t-footer clearfix">
                                 <div class="t-column t-checkbox"><input type="checkbox" name="toggle-checkboxes" checked="checked"></div>
                                 <div class="t-column t-cell">全选</div>
-                                <div class="t-column t-total-count">已选择<em th:text="${#aggregates.sum(cartItemList.{count})}">0</em>件商品：</div>
-                                <div class="t-column t-total-price"><em th:text="¥ |${#aggregates.sum(cartItemList.{prodouct.price*count})|}">¥ 0.0</em></div>
+                                <div class="t-column t-total-count">已选择<em th:text="${$totalCount}">0</em>件商品：</div>
+                                <div class="t-column t-total-price"><em th:text="|¥ ${totalAmount}|">¥ 0.0</em></div>
                                 <div class="t-column t-submit"><a id="submit-cart-form" class="btn-submit" href="#">去结算</a></div>
                             </div>
                     </div>
